@@ -1,17 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class AdminUser extends Authenticatable
 {
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Undocumented variable
      *
      * @var array
      */
@@ -20,7 +19,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Undocumented variable
      *
      * @var array
      */
@@ -29,7 +28,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Undocumented variable
      *
      * @var array
      */
