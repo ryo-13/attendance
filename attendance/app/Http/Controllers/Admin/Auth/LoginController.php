@@ -13,18 +13,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
-
-    public function __construct()
-    {
-        $this->middleware('guest:admin')->except('logout');
-    }
-
+    
     /**
      * Undocumented function
      *
      * @return void
      */
-    protected function guard()
+    public function guard()
     {
         return Auth::guard('admin');
     }
@@ -37,19 +32,6 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('admin.auth.login');
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function logout(Request $request)
-    {
-        Auth::guard('admin')->logout();
-
-        return $this->loggedOut($request);
     }
 
     /**
