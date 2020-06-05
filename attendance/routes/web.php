@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//API
+Route::middleware('auth:user')->namespace('API')->prefix('api')->group(function() {
+    Route::apiResource('users', 'UserController')->only([
+        'show', 'update'
+    ]);
+});
