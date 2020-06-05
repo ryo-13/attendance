@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Front\Auth\StoreRegister;
+use App\Http\Requests\Front\Auth\StoreRegisterRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -66,7 +66,7 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(StoreRegister $request)
+    public function register(StoreRegisterRequest $request)
     {
         event(new Registered($user = $this->create($request->all())));
 
