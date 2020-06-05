@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -34,5 +36,10 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('front.auth.login');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $user->update(['api_token' => Str::random(80)]);
     }
 }
