@@ -10,7 +10,6 @@ Vue.component('navbar', require('./components/Layouts/Navbar.vue').default);
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/index', component: require('./components/Articles/Index.vue').default },
         { path: '/attendance', component: require('./components/Attendance.vue').default },
     ]
 })
