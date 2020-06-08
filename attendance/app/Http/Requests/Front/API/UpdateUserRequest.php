@@ -5,7 +5,7 @@ namespace App\Http\Requests\Front\API;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateUser extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class UpdateUser extends FormRequest
             'name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user)],
             'password' => 'nullable|alpha_dash|min:4|confirmed',
-            'api_token' => 'required',
         ];
     }
 }
