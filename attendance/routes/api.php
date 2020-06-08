@@ -11,6 +11,6 @@
 */
 
 Route::middleware('auth:api')->namespace('Front\API')->group(function() {
-    Route::get('identity', 'UserController@show')->name('api.identity.show');
-    Route::put('identity', 'UserController@update')->name('api.identity.update');
+    Route::get('identity', 'IdentityController@show')->name('api.identity.show');
+    Route::put('identity', 'IdentityController@update')->name('api.identity.update');
 });

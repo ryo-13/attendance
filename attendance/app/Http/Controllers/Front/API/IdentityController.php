@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\API\UserUpdateRequest;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class IdentityController extends Controller
 {
     /**
      * Display the specified resource.
