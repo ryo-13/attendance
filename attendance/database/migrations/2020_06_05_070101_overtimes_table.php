@@ -14,11 +14,11 @@ class OvertimesTable extends Migration
     public function up()
     {
         Schema::create('overtimes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('attendance_id');
-            $table->time('overtime');
-            $table->string('overtime_reason');
-            $table->boolean('is_permitted');
+            $table->bigIncrements('id'); //残業ID
+            $table->integer('attendance_id'); //出退勤ID
+            $table->time('overtime'); //残業時間
+            $table->string('overtime_reason'); //残業理由
+            $table->boolean('is_permitted'); //残業許可
             $table->timestamps();
 
             $table->foreign('attendance_id')->references('id')->on('attendances');
