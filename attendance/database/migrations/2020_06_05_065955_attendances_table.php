@@ -14,11 +14,11 @@ class AttendanceTable extends Migration
     public function up()
     {
         Schema::create('attendances', function (Blueprint $table) {
-            $table->bigIncrements('id'); //出退勤ID
-            $table->unsignedBigInteger('user_id'); //作業者ID
-            $table->date('date')->nullable(); //日付
-            $table->time('arrival')->nullable(); //出社時間
-            $table->time('leave')->nullable(); //退社時間
+            $table->bigIncrements('id')->comment('出退勤ID');
+            $table->unsignedBigInteger('user_id')->comment('作業者ID');
+            $table->date('date')->nullable()->comment('日付');
+            $table->time('arrival')->nullable()->comment('出社時間');
+            $table->time('leave')->nullable()->comment('退社時間');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
