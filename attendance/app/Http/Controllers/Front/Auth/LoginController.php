@@ -38,8 +38,35 @@ class LoginController extends Controller
         return view('front.auth.login');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param [type] $user
+     * @return void
+     */
     protected function authenticated(Request $request, $user)
     {
         $user->update(['api_token' => Str::random(80)]);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        $user->update(['api_token' => null]);
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }
