@@ -37,6 +37,6 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO 出退勤更新機能を実装する
     }
 }
