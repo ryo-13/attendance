@@ -37,6 +37,6 @@ class OvertimeController extends Controller
      */
     public function approve(Request $request, $id)
     {
-        //
+        // TODO 残業時間申請の承認か拒否を行う
     }
 }
