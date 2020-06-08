@@ -28,6 +28,6 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request)
     {
-        $request->user()->update($request->validated());
+        $request->user()->fill($request->all())->save();
     }
 }
