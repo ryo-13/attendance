@@ -20,14 +20,14 @@ class IdentityController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Undocumented function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserUpdateRequest $request
+     * @return void
      */
     public function update(UserUpdateRequest $request)
     {
         $request->user()->fill($request->all())->save();
+        return $request->user();
     }
 }
