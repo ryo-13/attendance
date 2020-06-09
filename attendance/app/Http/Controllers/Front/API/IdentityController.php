@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class IdentityController extends Controller
 {
     /**
-     * Display the specified resource.
+     * ユーザー情報をjsonで返す
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -20,7 +20,7 @@ class IdentityController extends Controller
     }
 
     /**
-     * Undocumented function
+     * ユーザー情報を更新、jsonを返す
      *
      * @param UserUpdateRequest $request
      * @return void

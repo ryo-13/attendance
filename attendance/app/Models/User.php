@@ -38,12 +38,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * Undocumented function
+     * テーブル保存時パスワードハッシュ化
      *
-     * @param [type] $value
+     * @param string $value
      * @return void
      */
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute(string $value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
