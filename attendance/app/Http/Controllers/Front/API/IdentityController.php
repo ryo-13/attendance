@@ -12,8 +12,8 @@ class IdentityController extends Controller
     /**
      * ユーザー情報をjsonで返す
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return mixed
      */
     public function show(Request $request)
     {
@@ -28,14 +28,14 @@ class IdentityController extends Controller
      */
     public function confirmPassword(UserConfirmPasswordRequest $request)
     {
-        //
+        //Todo 特になし
     }
 
     /**
      * ユーザー情報を更新、jsonを返す
      *
      * @param UserUpdateRequest $request
-     * @return void
+     * @return mixed
      */
     public function update(UserUpdateRequest $request)
     {
