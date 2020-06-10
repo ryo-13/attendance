@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Front\API;
+namespace App\Http\Requests\front\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
-class UserUpdateRequest extends FormRequest
+class UserConfirmPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,16 +26,13 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id())],
             'old_password' => [
                 'required', function($attribute, $value, $fail) {
                     if (!Hash::check($value, Auth::user()->password)) {
-                        $fail('パスワードが違います');
+                        $fail('現在のパスワードが違います');
                     }
-                },
+                }
             ],
-            'password' => 'nullable|alpha_dash|min:4|confirmed',
         ];
     }
 }
