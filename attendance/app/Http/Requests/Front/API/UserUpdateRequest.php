@@ -39,4 +39,17 @@ class UserUpdateRequest extends FormRequest
             'password' => 'nullable|alpha_dash|min:4|confirmed',
         ];
     }
+
+    /**
+     * @return void
+     */
+    public function attributes()
+    {
+        return [
+            'name' => '名前',
+            'email' => 'メールアドレス',
+            'old_password' => 'パスワード',
+            'password' => 'パスワード',
+        ];
+    }
 }

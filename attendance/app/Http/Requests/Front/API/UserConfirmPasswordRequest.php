@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\front\API;
+namespace App\Http\Requests\Front\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +29,20 @@ class UserConfirmPasswordRequest extends FormRequest
             'old_password' => [
                 'required', function($attribute, $value, $fail) {
                     if (!Hash::check($value, Auth::user()->password)) {
-                        $fail('現在のパスワードが違います');
+                        $fail('パスワードが違います');
                     }
                 }
             ],
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    public function attributes()
+    {
+        return [
+            'old_passowrd' => 'パスワード',
         ];
     }
 }
