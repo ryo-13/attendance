@@ -19,7 +19,7 @@ Route::namespace('Front')->group(function () {
 
     //ログイン認証後
     Route::middleware('auth:user')->group(function () {
-        // 出退勤
+        // SPA画面
         Route::get('{any}', function () {
             return view('front/attendances/index');
         })->where('any', '.*');
