@@ -41,7 +41,7 @@ class UserUpdateRequest extends FormRequest
     }
 
     /**
-     * @return void
+     * @return array
      */
     public function attributes()
     {

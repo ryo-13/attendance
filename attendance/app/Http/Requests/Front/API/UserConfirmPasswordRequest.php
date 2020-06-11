@@ -37,7 +37,7 @@ class UserConfirmPasswordRequest extends FormRequest
     }
 
     /**
-     * @return void
+     * @return array
      */
     public function attributes()
     {
