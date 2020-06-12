@@ -10,7 +10,8 @@
 
         <div class="col">
             <h1>作業者登録</h1>
-            <form action="" method="POST">
+            <form action="{{ route('admin.users.store') }}" method="POST">
+                @csrf
 
                 <div class="form-group">
                     <label for="name">作業者</label>
@@ -34,7 +35,7 @@
                     <input type="password" id="password_confirmation" class="form-control" name="password_confirmation">
                 </div>
 
-                <button><a href="出退勤一覧">キャンセル</a></button>
+                <button><a href="{{ route('admin.users.index') }}">キャンセル</a></button>
                 <button type="submit" class="ml-2 bg-info">作成</button>
 
             </form>

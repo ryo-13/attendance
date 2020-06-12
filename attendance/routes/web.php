@@ -23,7 +23,7 @@ Route::namespace('Front')->group(function () {
         Route::get('home', 'HomeController@index')->name('home');
 
         // 出退勤
-        Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+       // Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
     });
 });
 
@@ -47,7 +47,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         // 作業者
         Route::get('users', 'UserController@index')->name('users.index');
         Route::get('users/create', 'UserController@create')->name('users.create');
+        Route::post('users/store','UserController@store')->name('users.store');
         Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
+        Route::post('users/{user}/update','UserController@update')->name('users.update');
+        Route::delete('users/{user}/destroy','UserController@destroy')->name('users.destroy');
 
         // 残業時間申請
         Route::get('overtimes', 'OverTimeController@index')->name('overtimes.index');

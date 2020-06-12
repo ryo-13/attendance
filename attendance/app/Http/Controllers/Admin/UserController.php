@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -11,10 +14,15 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *
      */
     public function index()
     {
-        return view('admin.users.index');
+        $users = User::query()->get();
+
+        return view('admin.users.index', compact(
+            'users'
+        ));
     }
 
     /**
@@ -28,47 +36,49 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUser $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        // TODO 作業者情報を作成する
+        User::create($request->validated());
+
+        return redirect(route('admin.users.index'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        return view('admin.users.edit');
+        return view('admin.users.edit',compact('user'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateUser $request
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request,User $user)
     {
-        // TODO 作業者情報を更新する
+        $parameters = $request->validated();
+
+        $user->update($parameters);
+
+        return redirect(route('admin.users.index'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        // TODO 作業者情報を削除する
+        User::destroy($user->id);
+
+        return redirect(route('admin.users.index'));
     }
 }
