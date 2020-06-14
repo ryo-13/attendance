@@ -19,8 +19,11 @@ class Attendance extends Model
         return   $this->belongsTo(User::class);
     }
 
-    public function setDateAttribute()
+    public function setDateAttribute($value)
     {
-        // ;
+        $date = substr_replace($value, '-', 4, 0);
+        $date = substr_replace($date, '-', 6, 0);
+
+        $this->attributes['date'] = $date;
     }
 }

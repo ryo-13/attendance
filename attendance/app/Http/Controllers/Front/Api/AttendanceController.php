@@ -19,6 +19,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+
         $dt = new Carbon;
         $dayDatas = [];
         for ($i = 1; $i <= $dt->daysInMonth; $i++) {
@@ -56,7 +57,7 @@ class AttendanceController extends Controller
         foreach ($request->displayDayDatas as $key => $value) {
             Attendance::create([
                 'user_id' => Auth::id(),
-                'date' => $dt->year . '-' . $dt->month . '-' . ($key + 1),
+                'date' => $dt->year . $dt->month  . ($key + 1),
                 'arrival' => $value['arrival'],
                 'leave' => $value['leave']
             ]);
@@ -69,7 +70,6 @@ class AttendanceController extends Controller
         foreach ($request->displayDayDatas as $key => $value) {
             $dates = $dt->year . '-' . $dt->month . '-' . ($key + 1);
             Attendance::where('user_id', Auth::id())->where('date', $dates)->latest('created_at')->update([
-                'date' => $dates,
                 'arrival' => $value['arrival'],
                 'leave' => $value['leave']
             ]);
