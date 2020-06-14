@@ -11,7 +11,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) { }
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -21,7 +21,18 @@ try {
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Laravel.apiToken;
+
+window.axios.defaults.headers.common = {
+    'X-CSRF-TOKEN': window.Laravel.csrfToken,
+    'X-Requested-With': 'XMLHttpRequest',
+    'Authorization': 'Bearer ' + Laravel.apiToken,
+}
+
+Vue.prototype.$http = window.axios
+
+// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -39,3 +50,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+
+
+
