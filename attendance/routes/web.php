@@ -20,10 +20,9 @@ Route::namespace('Front')->group(function () {
 
     //ログイン認証後
     Route::middleware('auth:user')->group(function () {
-        Route::get('home', 'HomeController@index')->name('home');
-
-        // 出退勤
-        Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+        Route::get('/{any}', function () {
+            return view('front/attendances/index');
+        })->where('any', '.*');
     });
 });
 

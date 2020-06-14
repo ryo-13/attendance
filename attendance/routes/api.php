@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\AttendanceController;
 use Illuminate\Http\Request;
 
 /*
@@ -13,6 +14,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route::group(['middleware' => ['api']], function () {
+// Route::resource('attendances', 'Api\AttendanceController', ['except' => ['create', 'edit', 'show']]);
+// });
+
+Route::middleware('auth:api')->namespace('Front\Api')->name('api.')->group(function () {
+    Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+    Route::post('attendances', 'AttendanceController@store')->name('attendances.store');
+    Route::put('attendances/{attendance}', 'AttendanceController@update')->name('attendances.update');
+    Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('attendances.delete');
 });
