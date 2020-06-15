@@ -5,8 +5,7 @@
 <div class="container mt-5 mx-auto">
     <div class="row">
 
-        @component('components.admin.sidebar')
-        @endcomponent
+        @include('components.admin.sidebar')
 
         <div class="col">
             <h1>作業者登録</h1>
@@ -35,8 +34,8 @@
                     <input type="password" id="password_confirmation" class="form-control" name="password_confirmation">
                 </div>
 
-                <button><a href="{{ route('admin.users.index') }}">キャンセル</a></button>
-                <button type="submit" class="ml-2 bg-info">作成</button>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-primary btn-lg">キャンセル</a>
+                <button type="submit" class="btn btn-primary btn-lg">作成</button>
 
             </form>
         </div>

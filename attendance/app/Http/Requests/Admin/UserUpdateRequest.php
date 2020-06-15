@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 
 /**
  * Class StoreProductCategory
  * @package App\Http\Requests
  */
-class StoreUser extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
 
     /**
@@ -26,8 +28,13 @@ class StoreUser extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:App\Models\User',
-            'password' => 'required|alpha_dash|confirmed|min:4',
+            'email' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique(User::class)->ignore($this->user),
+            ],
+            'password' => 'nullable|alpha_dash|confirmed|min:4',
         ];
     }
 }

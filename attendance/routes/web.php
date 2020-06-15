@@ -23,7 +23,7 @@ Route::namespace('Front')->group(function () {
         Route::get('home', 'HomeController@index')->name('home');
 
         // 出退勤
-       // Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+       Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
     });
 });
 

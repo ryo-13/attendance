@@ -5,8 +5,7 @@
     <div class="container mt-5 mx-auto">
         <div class="row">
 
-            @component('components.admin.sidebar')
-            @endcomponent
+            @include('components.admin.sidebar')
 
             <div class="col">
                 <h1>作業者編集</h1>
@@ -39,8 +38,8 @@
                                class="form-control  @error ('password_confirmation')is-invalid @enderror">
                     </div>
 
-                    <button><a href="{{ route('admin.users.index') }}">キャンセル</a></button>
-                    <button type="submit" class="ml-2 bg-info">編集</button>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-primary btn-lg">キャンセル</a>
+                    <button type="submit" class="btn btn-primary btn-lg">編集</button>
                 </form>
             </div>
         </div>

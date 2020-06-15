@@ -5,12 +5,11 @@
     <div class="container mt-5">
         <div class="row">
 
-            @component('components.admin.sidebar')
-            @endcomponent
+            @include('components.admin.sidebar')
 
             <div class="col">
                 <h1 class="mb-3"> 作業者一覧</h1>
-                <button type="submit" class="mb-2 bg-info" onclick="location.href='{{ route('admin.users.create') }}'">作成</button>
+                <button type="submit" class="mb-2 bg-info"><a href="{{ route('admin.users.create') }}">作成</a></button>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -21,8 +20,8 @@
                         <th></th>
                     </tr>
                     </thead>
+                    <tbody>
                     @foreach ($users as $user)
-                        <tbody>
                         <tr>
                             <th>{{ $user->id }}</th>
                             <td>{{ $user->name }}</td>
@@ -37,8 +36,8 @@
                                 </td>
                             </form>
                         </tr>
-                        </tbody>
                     @endforeach
+                    </tbody>
                 </table>
 
             </div>

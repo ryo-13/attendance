@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreUser;
-use App\Http\Requests\UpdateUser;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    protected $redirectTo = 'admin.users.index';
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     *
      */
     public function index()
     {
@@ -36,14 +37,14 @@ class UserController extends Controller
     }
 
     /**
-     * @param StoreUser $request
+     * @param UserStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(StoreUser $request)
+    public function store(UserStoreRequest $request)
     {
         User::create($request->validated());
 
-        return redirect(route('admin.users.index'));
+        return redirect(route($this->redirectTo));
     }
 
     /**
@@ -58,17 +59,17 @@ class UserController extends Controller
     }
 
     /**
-     * @param UpdateUser $request
+     * @param UserUpdateRequest $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdateUser $request,User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $parameters = $request->validated();
 
         $user->update($parameters);
 
-        return redirect(route('admin.users.index'));
+        return redirect(route($this->redirectTo));
     }
 
     /**
@@ -79,6 +80,6 @@ class UserController extends Controller
     {
         User::destroy($user->id);
 
-        return redirect(route('admin.users.index'));
+        return redirect(route($this->redirectTo));
     }
 }
