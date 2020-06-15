@@ -20,9 +20,9 @@ class AttendanceController extends Controller
     public function index()
     {
         $dt = new Carbon;
-        $daysDatas = [];
+        $daysData = [];
         for ($i = 1; $i <= $dt->daysInMonth; $i++) {
-            $daysDatas[] = [
+            $daysData[] = [
                 'day' => $i,
                 'month' => $dt->month,
                 'year' => $dt->year,
@@ -33,7 +33,7 @@ class AttendanceController extends Controller
         $attendances = User::find(Auth::id())->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
-            foreach ($daysDatas as $dayData) {
+            foreach ($daysData as $dayData) {
                 $attendances[] = [
                     'arrival' => null,
                     'leave' => null,
@@ -43,7 +43,7 @@ class AttendanceController extends Controller
         }
 
         $attendances = [];
-        foreach ($daysDatas as $dayData) {
+        foreach ($daysData as $dayData) {
             $date = $dayData['year'] . '-' . $dayData['month'] . '-' . $dayData['day'];
             $attendances[] = User::find(Auth::id())->attendances()->where('date', $date)->first();
         }
