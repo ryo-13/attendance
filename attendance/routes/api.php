@@ -12,5 +12,6 @@
 
 Route::middleware('auth:api')->namespace('Front\API')->group(function() {
     Route::get('identity', 'IdentityController@show')->name('api.identity.show');
+    Route::post('identity/confirm-password', 'IdentityController@confirmPassword')->name('api.identity.confirmPassword');
     Route::put('identity', 'IdentityController@update')->name('api.identity.update');
 });
