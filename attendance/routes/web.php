@@ -11,7 +11,6 @@
 |
 */
 
-Route::redirect('/', 'home');
 Route::redirect('/admin', 'admin/home');
 
 //フロント
@@ -20,7 +19,8 @@ Route::namespace('Front')->group(function () {
 
     //ログイン認証後
     Route::middleware('auth:user')->group(function () {
-        Route::get('/{any}', function () {
+        // SPA画面
+        Route::get('{any}', function () {
             return view('front/attendances/index');
         })->where('any', '.*');
     });
@@ -37,8 +37,6 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
     //ログイン認証後
     Route::middleware('auth:admin')->group(function () {
-        Route::get('home', 'HomeController@index')->name('home');
-
         // 出退勤
         Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
         Route::get('attendances/{user}/edit', 'AttendanceController@edit')->name('attendances.edit');

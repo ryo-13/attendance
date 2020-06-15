@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // TODO 作業者情報を作成する
     }
 
     /**
@@ -58,7 +58,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO 作業者情報を更新する
     }
 
     /**
@@ -69,6 +69,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO 作業者情報を削除する
     }
 }

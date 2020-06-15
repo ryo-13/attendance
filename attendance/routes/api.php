@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,7 +10,13 @@
 |
 */
 
-Route::middleware('auth:api')->namespace('Front\Api')->name('api.')->group(function () {
+Route::middleware('auth:api')->namespace('Front\API')->group(function () {
+    // 作業者
+    Route::get('identity', 'IdentityController@show')->name('api.identity.show');
+    Route::post('identity/confirm-password', 'IdentityController@confirmPassword')->name('api.identity.confirmPassword');
+    Route::put('identity', 'IdentityController@update')->name('api.identity.update');
+
+    // 出退勤
     Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
     Route::post('attendances', 'AttendanceController@store')->name('attendances.store');
     Route::put('attendances/{attendance}', 'AttendanceController@update')->name('attendances.update');

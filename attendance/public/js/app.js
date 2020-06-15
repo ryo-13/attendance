@@ -37881,32 +37881,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [
-    _c(
-      "nav",
-      { staticClass: "navbar navbar-default" },
-      [
-        _c(
-          "router-link",
-          { staticClass: "navbar-brand", attrs: { to: "/attendance" } },
-          [_vm._v("出退勤画面")]
-        ),
-        _vm._v(" "),
-        _c(
-          "router-link",
-          { staticClass: "navbar-brand", attrs: { to: "/index" } },
-          [_vm._v("残業申請画面")]
-        ),
-        _vm._v(" "),
-        _c(
-          "router-link",
-          { staticClass: "navbar-brand", attrs: { to: "/worker" } },
-          [_vm._v("作業者情報画面")]
-        )
-      ],
-      1
-    )
-  ])
+  return _c(
+    "div",
+    {},
+    [
+      _c(
+        "nav",
+        { staticClass: "navbar navbar-default" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: "/attendance" } },
+            [_vm._v("出退勤画面")]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: "/" } },
+            [_vm._v("残業申請画面")]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: "/user" } },
+            [_vm._v("作業者情報画面")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("router-view")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -53160,15 +53167,13 @@ try {
  */
 
 
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Laravel.apiToken;
-
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common = {
   'X-CSRF-TOKEN': window.Laravel.csrfToken,
   'X-Requested-With': 'XMLHttpRequest',
   'Authorization': 'Bearer ' + Laravel.apiToken
 };
-Vue.prototype.$http = window.axios; // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+Vue.prototype.$http = window.axios;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -34,5 +36,37 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('front.auth.login');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param [type] $user
+     * @return void
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $user->update(['api_token' => Str::random(80)]);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        $user->update(['api_token' => null]);
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }
