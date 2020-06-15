@@ -29,6 +29,6 @@
 </head>
 <body>
     <div id="app">
-        <navbar></navbar>
+        <navbar csrf="{{ json_encode(csrf_token()) }}"></navbar>
     </div>
 </body>
