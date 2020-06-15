@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(displayDayData, index) in displayDayDatas" :key="index">
+        <tr v-for="(displayDayData, index) in displayDaysData" :key="index">
           <td>{{ currentMonth}}/{{ index+1}}</td>
           <td>
             <input type="time" @change="storeOrUpdate" v-model="displayDayData.arrival" />
@@ -33,28 +33,28 @@ dayjs.locale("ja");
 
 export default {
   created() {
-    this.getAttendnace();
+    this.getAttendnaceData();
   },
   data() {
     return {
-      displayDayDatas: "",
+      displayDaysData: "",
+      attendancesDbDates: "",
       userId: "",
-      attendancesDatas: "",
       message: ""
     };
   },
   methods: {
-    getAttendnace() {
+    getAttendnaceData() {
       axios.get("/api/attendances").then(response => {
-        this.displayDayDatas = response.data;
+        this.displayDaysData = response.data;
         this.userId = response.data[0].user_id;
-        this.attendancesDatas = response.data;
+        this.attendancesDbDates = response.data;
       });
     },
     storeDaysData() {
       axios
         .post("/api/attendances", {
-          displayDayDatas: this.displayDayDatas
+          displayDaysData: this.displayDaysData
         })
         .then(response => {
           this.displayDayData = "";
@@ -66,7 +66,7 @@ export default {
     updateDaysData() {
       axios
         .put("/api/attendances/" + this.userId, {
-          displayDayDatas: this.displayDayDatas
+          displayDaysData: this.displayDaysData
         })
         .then(response => {
           this.displayDayData = "";
@@ -76,27 +76,20 @@ export default {
         });
     },
     storeOrUpdate() {
-      let date = dayjs().format("YYYY") + "-" + dayjs().format("MM");
-      let attendancesDate =
-        this.attendancesDatas[0].date === undefined
-          ? null
-          : this.attendancesDatas[0].date.slice(0, -3);
+      let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");
+      let attendancesDbDate = this.attendancesDbDates[0].date === undefined ? null : this.attendancesDbDates[0].date.slice(0, -3);
 
-      if (attendancesDate === date) {
+      if (currentDate === attendancesDbDate) {
         this.updateDaysData();
       } else {
         this.storeDaysData();
+        this.getAttendnaceData();
       }
     }
   },
   computed: {
     currentDayjs() {
       return dayjs();
-    },
-    daysData() {
-      const numOfMonth = this.currentDayjs.endOf("month").date();
-      const daysOfMonth = [...Array(numOfMonth).keys()].map(i => ++i);
-      return daysOfMonth;
     },
     currentMonth() {
       return dayjs().format("M");

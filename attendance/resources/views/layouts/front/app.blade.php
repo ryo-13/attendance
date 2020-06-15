@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="{{ mix('js/app.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -25,7 +26,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('attendances.index') }}">
+                <a class="navbar-brand" href="">
                     {{ config('app.name', '勤怠管理システム') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -55,7 +56,7 @@
                         @else
 
                         <li class="nav-item">
-                            <span class="nav-link">◯◯年◯月◯日</span>
+                            <span class="nav-link"></span>
                         </li>
 
                         <li class="nav-item dropdown">
