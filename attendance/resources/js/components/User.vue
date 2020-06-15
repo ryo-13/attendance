@@ -98,7 +98,6 @@ export default {
             emailError: '',
             passError: '',
             loading: false,
-
         }
     },
     created() {
@@ -176,6 +175,8 @@ export default {
                 this.updateName = res.data.name;
                 this.updateEmail = res.data.email;
                 this.changeShow();
+
+                this.$parent.name = res.data.name;
             })
             .catch(err => {
                 this.errored = err.response.data;
