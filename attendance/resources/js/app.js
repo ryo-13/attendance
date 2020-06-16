@@ -1,3 +1,5 @@
+require('./bootstrap')
+
 window.Vue = require('vue');
 
 import dayjs from 'dayjs'
@@ -6,8 +8,6 @@ dayjs.locale('ja');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-require('./bootstrap')
 
 Vue.use(VueRouter)
 Vue.prototype.$dayjs = dayjs;
@@ -18,6 +18,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/attendance', component: require('./components/Attendance.vue').default },
+        { path: '/user', component: require('./components/User.vue').default },
     ]
 })
 
