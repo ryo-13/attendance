@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front\Api;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Model\Attendance;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Front\API\StoreAttendanceRequest;
@@ -12,13 +13,14 @@ use App\Http\Requests\Front\API\UpdateAttendanceRequest;
 
 class AttendanceController extends Controller
 {
-   /**
-    * Undocumented function
-    *
-    * @return void
-    */
-    public function index()
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getAttendances()
     {
+        Log::debug('docker in dockers');
         $dt = new Carbon;
         $daysData = [];
         for ($i = 1; $i <= $dt->daysInMonth; $i++) {
@@ -56,7 +58,7 @@ class AttendanceController extends Controller
      * @param StoreAttendanceRequest $request
      * @return void
      */
-    public function store(StoreAttendanceRequest $request)
+    public function storeAttendances(StoreAttendanceRequest $request)
     {
         $dt = new Carbon;
         foreach ($request->displayDaysData as $key => $value) {
@@ -75,7 +77,7 @@ class AttendanceController extends Controller
      * @param UpdateAttendanceRequest $request
      * @return void
      */
-    public function update(UpdateAttendanceRequest $request)
+    public function updateAttendances(UpdateAttendanceRequest $request)
     {
         $dt = new Carbon;
         foreach ($request->displayDaysData as $key => $value) {
