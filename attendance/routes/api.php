@@ -17,8 +17,8 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     Route::put('identity', 'IdentityController@update')->name('api.identity.update');
 
     // 出退勤
-    Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
-    Route::post('attendances', 'AttendanceController@store')->name('attendances.store');
-    Route::put('attendances/{attendance}', 'AttendanceController@update')->name('attendances.update');
-    Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('attendances.delete');
+    Route::get('attendances', 'AttendanceController@getAttendances')->name('api.attendances.getAttendances');
+    Route::post('attendances', 'AttendanceController@storeAttendances')->name('api.attendances.storeAttendances');
+    Route::put('attendances/{attendance}', 'AttendanceController@updateAttendances')->name('api.attendances.updateAttendances');
+    Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('api.attendances.delete');
 });
