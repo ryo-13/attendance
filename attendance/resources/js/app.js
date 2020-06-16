@@ -1,6 +1,7 @@
-require('./bootstrap')
-
 window.Vue = require('vue');
+
+require('./bootstrap');
+
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja';
@@ -18,6 +19,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/attendance', component: require('./components/Attendance.vue').default },
+        { path: '/user', component: require('./components/User.vue').default },
     ]
 })
 
