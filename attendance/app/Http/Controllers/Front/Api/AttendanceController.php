@@ -8,8 +8,8 @@ use App\Model\Attendance;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Front\API\StoreAttendanceRequest;
-use App\Http\Requests\Front\API\UpdateAttendanceRequest;
+use App\Http\Requests\Front\API\AttendanceStoreRequest;
+use App\Http\Requests\Front\API\AttendanceUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -20,22 +20,16 @@ class AttendanceController extends Controller
      */
     public function getAttendances()
     {
-        Log::debug('docker in dockers');
         $dt = new Carbon;
-        $daysData = [];
+        $days = [];
         for ($i = 1; $i <= $dt->daysInMonth; $i++) {
-            $daysData[] = [
-                'day' => $i,
-                'month' => $dt->month,
-                'year' => $dt->year,
-                'userId' => Auth::id(),
-            ];
+            $days[] = $i;
         }
 
         $attendances = User::find(Auth::id())->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
-            foreach ($daysData as $dayData) {
+            foreach ($days as $day) {
                 $attendances[] = [
                     'arrival' => null,
                     'leave' => null,
@@ -45,8 +39,8 @@ class AttendanceController extends Controller
         }
 
         $attendances = [];
-        foreach ($daysData as $dayData) {
-            $date = $dayData['year'] . '-' . $dayData['month'] . '-' . $dayData['day'];
+        foreach ($days as $day) {
+            $date = "{$dt->year}-{$dt->month}-{$day}";
             $attendances[] = User::find(Auth::id())->attendances()->where('date', $date)->first();
         }
         return $attendances;
@@ -57,13 +51,14 @@ class AttendanceController extends Controller
      *
      * @param StoreAttendanceRequest $request
      */
-    public function storeAttendances(StoreAttendanceRequest $request)
+    public function storeAttendances(AttendanceStoreRequest $request)
     {
         $dt = new Carbon;
         foreach ($request->displayDaysData as $key => $value) {
+            $day = $key + 1;
             Attendance::create([
                 'user_id' => Auth::id(),
-                'date' => $dt->year . $dt->month  . ($key + 1),
+                'date' =>  "{$dt->year}-{$dt->month}-{$day}",
                 'arrival' => $value['arrival'],
                 'leave' => $value['leave']
             ]);
@@ -75,11 +70,13 @@ class AttendanceController extends Controller
      *
      * @param UpdateAttendanceRequest $request
      */
-    public function updateAttendances(UpdateAttendanceRequest $request)
+    public function updateAttendances(AttendanceUpdateRequest $request)
     {
         $dt = new Carbon;
         foreach ($request->displayDaysData as $key => $value) {
-            $dates = $dt->year . '-' . $dt->month . '-' . ($key + 1);
+            $day = $key + 1;
+            $dates = "{$dt->year}-{$dt->month}-{$day}";
+            Log::debug($dates);
             Attendance::where('user_id', Auth::id())->where('date', $dates)->update([
                 'arrival' => $value['arrival'],
                 'leave' => $value['leave']
