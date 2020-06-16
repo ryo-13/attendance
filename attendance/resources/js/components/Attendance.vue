@@ -1,4 +1,5 @@
 <template>
+  <!-- 出退勤時間照会・作成・更新 -->
   <div>
     <h1>タイムカード</h1>
     <span>{{ $dayjs().format('YYYY[年]MM[月]DD[日]')}}({{ currentDayOfWeek }})</span>
@@ -77,7 +78,10 @@ export default {
     },
     storeOrUpdate() {
       let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");
-      let attendancesDbDate = this.attendancesDbDates[0].date === undefined ? null : this.attendancesDbDates[0].date.slice(0, -3);
+      let attendancesDbDate =
+        this.attendancesDbDates[0].date === undefined
+          ? null
+          : this.attendancesDbDates[0].date.slice(0, -3);
 
       if (currentDate === attendancesDbDate) {
         this.updateDaysData();

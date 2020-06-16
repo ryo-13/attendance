@@ -14,9 +14,9 @@ use App\Http\Requests\Front\API\UpdateAttendanceRequest;
 class AttendanceController extends Controller
 {
     /**
-     * Undocumented function
+     * 出退勤情報を取得
      *
-     * @return void
+     * @return array
      */
     public function getAttendances()
     {
@@ -53,10 +53,9 @@ class AttendanceController extends Controller
     }
 
     /**
-     * Undocumented function
+     * 出退勤情報を作成
      *
      * @param StoreAttendanceRequest $request
-     * @return void
      */
     public function storeAttendances(StoreAttendanceRequest $request)
     {
@@ -72,10 +71,9 @@ class AttendanceController extends Controller
     }
 
     /**
-     * Undocumented function
+     * 出退勤情報を更新
      *
      * @param UpdateAttendanceRequest $request
-     * @return void
      */
     public function updateAttendances(UpdateAttendanceRequest $request)
     {
