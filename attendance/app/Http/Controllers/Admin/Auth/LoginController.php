@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
+    protected $redirectTo = RouteServiceProvider::ADMIN_USERS;
     
     /**
      * Undocumented function

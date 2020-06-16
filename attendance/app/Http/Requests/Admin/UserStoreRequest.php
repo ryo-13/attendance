@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class StoreProductCategory
+ * Class UserStoreRequest
  * @package App\Http\Requests
  */
 class UserStoreRequest extends FormRequest

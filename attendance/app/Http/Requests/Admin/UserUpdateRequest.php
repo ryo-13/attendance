@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
 
 /**
- * Class StoreProductCategory
+ * Class UserUpdateRequest
  * @package App\Http\Requests
  */
 class UserUpdateRequest extends FormRequest

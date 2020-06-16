@@ -11,20 +11,7 @@
 |
 */
 
-Route::redirect('/admin', 'admin/home');
-
-//フロント
-Route::namespace('Front')->group(function () {
-    Auth::routes();
-
-    //ログイン認証後
-    Route::middleware('auth:user')->group(function () {
-        // SPA画面
-        Route::get('{any}', function () {
-            return view('front/attendances/index');
-        })->where('any', '.*');
-    });
-});
+Route::redirect('/admin', 'admin/users');
 
 //管理者
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
@@ -44,13 +31,26 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         // 作業者
         Route::get('users', 'UserController@index')->name('users.index');
         Route::get('users/create', 'UserController@create')->name('users.create');
-        Route::post('users/store','UserController@store')->name('users.store');
+        Route::post('users/store', 'UserController@store')->name('users.store');
         Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
-        Route::post('users/{user}/update','UserController@update')->name('users.update');
-        Route::delete('users/{user}/destroy','UserController@destroy')->name('users.destroy');
+        Route::post('users/{user}/update', 'UserController@update')->name('users.update');
+        Route::delete('users/{user}/destroy', 'UserController@destroy')->name('users.destroy');
 
         // 残業時間申請
         Route::get('overtimes', 'OverTimeController@index')->name('overtimes.index');
         Route::get('{user}/overtimes/update', 'OvertimeController@update')->name('overtimes.update');
+    });
+});
+
+//フロント
+Route::namespace('Front')->group(function () {
+    Auth::routes();
+
+    //ログイン認証後
+    Route::middleware('auth:user')->group(function () {
+        // SPA画面
+        Route::get('{any}', function () {
+            return view('front/attendances/index');
+        })->where('any', '.*');
     });
 });
