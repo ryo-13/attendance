@@ -6,6 +6,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use Notifiable;
