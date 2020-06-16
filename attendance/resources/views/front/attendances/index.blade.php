@@ -27,9 +27,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-
 <body>
     <div id="app">
         <navbar csrf="{{ json_encode(csrf_token()) }}"></navbar>
     </div>
-</body>
+    </body>

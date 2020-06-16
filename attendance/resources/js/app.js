@@ -18,7 +18,6 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/attendance', component: require('./components/Attendance.vue').default },
-        { path: '/user', component: require('./components/User.vue').default },
     ]
 })
 
