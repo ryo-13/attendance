@@ -14,6 +14,7 @@ const router = new VueRouter({
     routes: [
         { path: '/attendance', component: require('./components/Attendance.vue').default },
         { path: '/user', component: require('./components/User.vue').default },
+        { path: '/overtime', component: require('./components/Overtime.vue').default },
     ]
 })
 
