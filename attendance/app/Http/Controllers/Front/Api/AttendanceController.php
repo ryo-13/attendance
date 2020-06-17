@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front\Api;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Model\Attendance;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
