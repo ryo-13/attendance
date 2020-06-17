@@ -1,6 +1,7 @@
+window.Vue = require('vue');
+
 require('./bootstrap');
 
-window.Vue = require('vue');
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja';
