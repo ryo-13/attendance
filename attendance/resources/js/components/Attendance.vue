@@ -16,9 +16,11 @@
           <td>{{ currentMonth}}/{{ index+1}}</td>
           <td>
             <input type="time" @change="storeOrUpdate" v-model="displayDayData.arrival" />
+            <button type="button" @click="deleteDaysData" class="btn btn-danger ml-5">リセット</button>
           </td>
           <td>
             <input type="time" @change="storeOrUpdate" v-model="displayDayData.leave" />
+            <button type="button" @click="deleteDaysData" class="btn btn-danger ml-5">リセット</button>
           </td>
         </tr>
       </tbody>
@@ -75,6 +77,9 @@ export default {
         .catch(err => {
           this.message = err;
         });
+    },
+    deleteDaysData(){
+      //
     },
     storeOrUpdate() {
       let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");

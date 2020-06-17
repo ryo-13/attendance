@@ -1940,6 +1940,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale("ja");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1985,6 +1987,8 @@ dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale("ja");
       })["catch"](function (err) {
         _this3.message = err;
       });
+    },
+    deleteDaysData: function deleteDaysData() {//
     },
     storeOrUpdate: function storeOrUpdate() {
       var currentDate = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("YYYY") + "-" + dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("MM");
@@ -37947,7 +37951,17 @@ var render = function() {
                     _vm.$set(displayDayData, "arrival", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger ml-5",
+                  attrs: { type: "button" },
+                  on: { click: _vm.deleteDaysData }
+                },
+                [_vm._v("リセット")]
+              )
             ]),
             _vm._v(" "),
             _c("td", [
@@ -37971,7 +37985,17 @@ var render = function() {
                     _vm.$set(displayDayData, "leave", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger ml-5",
+                  attrs: { type: "button" },
+                  on: { click: _vm.deleteDaysData }
+                },
+                [_vm._v("リセット")]
+              )
             ])
           ])
         }),
