@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Overtime extends Model
 {
     /**
-     * Undocumented variable
-     *
      * @var array
      */
     protected $fillable = [
