@@ -6,14 +6,11 @@
                 <span v-on:click="changeListForm" role="button" v-bind:class="listClass">申請一覧</span>
             </div>
 
-            <!-- 残業申請画面 -->
             <div v-if="applyForm">
 
-                <!-- エラー -->
                 <div v-for="(error, index) in errors" class="mt-3" v-bind:key="index">
                     <div class="alert alert-danger" role="alert">{{ error }}</div>
                 </div>
-                <!-- ---------------------- -->
 
                 <div class="card-body">
                     <div class="form-group">
@@ -42,7 +39,6 @@
                 </div>
             </div>
 
-            <!-- 申請一覧画面 -->
             <div v-else>
                 <table class="table">
                     <thead class="thead-light">
@@ -117,6 +113,7 @@ export default {
             .then(res => {
                 this.$router.push('/attendance');
                 this.$parent.success = '申請しました';
+                this.$parent.successDelete();
             })
             .catch(err => {
                 Object.keys(err.response.data.errors).forEach(function(element) {

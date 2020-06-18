@@ -48,6 +48,9 @@
             </li>
         </ul>
     </nav>
+    <div v-if="success" class="alert alert-success">
+        {{ success }}
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -63,6 +66,7 @@ export default {
     data() {
         return {
             name: '',
+            success: '',
         }
     },
     computed: {
@@ -78,10 +82,16 @@ export default {
         .catch(err => {
             alert(err.response.data);
         })
+
     },
     methods: {
         logout() {
             document.getElementById('logout-form').submit();
+        },
+        successDelete() {
+            setTimeout(() => {
+                this.success = '';
+            }, 3000);
         }
     }
 }
