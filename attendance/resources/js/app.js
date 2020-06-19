@@ -14,6 +14,8 @@ Vue.use(VueRouter)
 Vue.prototype.$dayjs = dayjs;
 
 Vue.component('navbar', require('./components/Layouts/Navbar.vue').default);
+Vue.component('Ajax', require('./components/Ajax.vue').default);
+
 
 const router = new VueRouter({
     mode: 'history',
