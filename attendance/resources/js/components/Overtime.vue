@@ -131,7 +131,6 @@ export default {
             })
         },
         deleteApply(index) {
-            console.log(this.applyLists[index]);
             axios.delete('/api/overtimes/' + this.applyLists[index].id)
             .then(res => {
                 this.getApply();
