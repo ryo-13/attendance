@@ -48,7 +48,6 @@ export default {
         });
     },
     updateLeave() {
-      console.log(this.displayDayData);
       axios
         .put("/api/attendances/update_leave/" + this.displayDayData.id, {
           attendanceTime: this.displayDayData
@@ -82,33 +81,24 @@ export default {
           console.log("error");
         });
     },
-    storeOrUpdateArrival() {
+    updateArrivalOrUpdateLeave(method) {
       let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");
       let attendancesDbDate =
         this.attendancesDbDates[0].date === undefined
           ? null
           : this.attendancesDbDates[0].date.slice(0, -3);
-
       if (currentDate === attendancesDbDate) {
-        this.updateArrival();
+        method();
       } else {
         this.storeDaysData();
         this.$emit("callGetAttendance");
       }
     },
+    storeOrUpdateArrival() {
+      this.updateArrivalOrUpdateLeave(this.updateArrival);
+    },
     storeOrUpdateLeave() {
-      let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");
-      let attendancesDbDate =
-        this.attendancesDbDates[0].date === undefined
-          ? null
-          : this.attendancesDbDates[0].date.slice(0, -3);
-
-      if (currentDate === attendancesDbDate) {
-        this.updateLeave();
-      } else {
-        this.storeDaysData();
-        this.$emit("callGetAttendance");
-      }
+      this.updateArrivalOrUpdateLeave(this.updateLeave);
     }
   },
   computed: {
