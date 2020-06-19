@@ -7,7 +7,6 @@ use App\Http\Requests\Front\API\OvertimeStoreRequest;
 use App\Models\Overtime;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class OvertimeController extends Controller
 {
