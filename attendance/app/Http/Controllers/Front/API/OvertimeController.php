@@ -54,4 +54,11 @@ class OvertimeController extends Controller
             ],
         );
     }
+
+    public function destroy(Overtime $overtime)
+    {
+        $this->authorize('delete', $overtime);
+
+        $overtime->delete();
+    }
 }

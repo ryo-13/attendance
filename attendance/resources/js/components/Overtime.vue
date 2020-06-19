@@ -40,19 +40,27 @@
             </div>
 
             <div v-else>
+                <div v-if="deleteErr" class="alert alert-danger" role="alert">{{ deleteErr }}</div>
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">勤務日</th>
                             <th scope="col">残業時間</th>
                             <th scope="col">許可</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-if="!applyLists.length">
+                            <td>なし</td>
+                            <td>なし</td>
+                            <td>なし</td>
+                        </tr>
                         <tr v-for="(applyList, index) in applyLists" v-bind:key="index">
                             <td>{{ applyList.date }}</td>
                             <td>{{ applyList.overtime.slice(0, -3) }}</td>
                             <td>{{ applyList.is_permitted ? '許可された' : '申請中' }}</td>
+                            <td><button v-on:click="deleteApply(index)" class="btn btn-danger">削除</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,9 +81,10 @@ export default {
             overtime: '00:00',
             reason: '',
 
-            applyLists: [],
+            applyLists: {},
 
             errors: [],
+            deleteErr: '',
         }
     },
     created() {
@@ -119,6 +128,15 @@ export default {
                 Object.keys(err.response.data.errors).forEach(function(element) {
                     this.errors.push(err.response.data.errors[element]);
                 }, this);
+            })
+        },
+        deleteApply(index) {
+            axios.delete('/api/overtimes/' + this.applyLists[index].id)
+            .then(res => {
+                this.getApply();
+            })
+            .catch(err => {
+                this.deleteErr = '削除に失敗しました';
             })
         }
     }

@@ -18,6 +18,7 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     // 残業申請
     Route::get('overtimes', 'OvertimeController@getOvertimes')->name('api.overtimes.getOvertimes');
     Route::post('overtimes', 'OvertimeController@store')->name('api.overtimes.store');
+    Route::delete('overtimes/{overtime}', 'OvertimeController@destroy')->name('api.overtimes.destroy');
     // 出退勤
     Route::get('attendances', 'AttendanceController@getAttendances')->name('api.attendances.getAttendances');
     Route::post('attendances', 'AttendanceController@storeAttendances')->name('api.attendances.storeAttendances');
