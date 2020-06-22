@@ -40,7 +40,7 @@
             </li>
             <li class="nav-item">
                 <div><i class="far fa-bell fa-2x"></i></div>
-                <router-link class="navbar-brand text-dark" to="/">残業申請画面</router-link>
+                <router-link class="navbar-brand text-dark" to="/overtime">残業申請画面</router-link>
             </li>
             <li class="nav-item">
                 <div><i class="far fa-user fa-2x"></i></div>
@@ -48,6 +48,9 @@
             </li>
         </ul>
     </nav>
+    <div v-if="success" class="alert alert-success">
+        {{ success }}
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -63,6 +66,7 @@ export default {
     data() {
         return {
             name: '',
+            success: '',
         }
     },
     computed: {
@@ -82,6 +86,11 @@ export default {
     methods: {
         logout() {
             document.getElementById('logout-form').submit();
+        },
+        successDelete() {
+            setTimeout(() => {
+                this.success = '';
+            }, 3000);
         }
     }
 }

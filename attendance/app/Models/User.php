@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Attendance;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Attendance;
 
 /**
  * Class User
@@ -53,6 +53,9 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    /**
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attendances()
     {
         return $this->hasMany(Attendance::class);

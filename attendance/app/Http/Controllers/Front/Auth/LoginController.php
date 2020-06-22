@@ -48,6 +48,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $user->update(['api_token' => Str::random(80)]);
+        redirect()->intended($this->redirectPath());
     }
 
     /**

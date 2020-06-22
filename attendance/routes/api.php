@@ -15,7 +15,10 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     Route::get('identity', 'IdentityController@show')->name('api.identity.show');
     Route::post('identity/confirm-password', 'IdentityController@confirmPassword')->name('api.identity.confirmPassword');
     Route::put('identity', 'IdentityController@update')->name('api.identity.update');
-
+    // 残業申請
+    Route::get('overtimes', 'OvertimeController@getOvertimes')->name('api.overtimes.getOvertimes');
+    Route::post('overtimes', 'OvertimeController@store')->name('api.overtimes.store');
+    Route::delete('overtimes/{overtime}', 'OvertimeController@destroy')->name('api.overtimes.destroy');
     // 出退勤
     Route::get('attendances', 'AttendanceController@getAttendances')->name('api.attendances.getAttendances');
     Route::post('attendances', 'AttendanceController@storeAttendances')->name('api.attendances.storeAttendances');
