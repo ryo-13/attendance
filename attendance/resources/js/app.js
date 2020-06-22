@@ -2,7 +2,6 @@ window.Vue = require('vue');
 
 require('./bootstrap');
 
-
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja';
 dayjs.locale('ja');
@@ -15,7 +14,6 @@ Vue.prototype.$dayjs = dayjs;
 
 Vue.component('navbar', require('./components/Layouts/Navbar.vue').default);
 Vue.component('Ajax', require('./components/Ajax.vue').default);
-
 
 const router = new VueRouter({
     mode: 'history',

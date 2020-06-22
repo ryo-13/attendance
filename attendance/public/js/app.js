@@ -1899,6 +1899,151 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ajax.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Ajax.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale("ja");
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["displayDayData", "index", "attendancesDbDates", "parentProcessing"],
+  data: function data() {
+    return {
+      attendancesDates: this.attendancesDbDates
+    };
+  },
+  methods: {
+    isset: function isset(data) {
+      if (data === "" || data === null || data === undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    storeDaysData: function storeDaysData() {
+      var _this = this;
+
+      axios.post("/api/attendances", {
+        displayDaysData: this.attendancesDates
+      }).then(function (response) {
+        console.log("success");
+
+        _this.$emit("callGetAttendance");
+
+        _this.$emit("parentMethod", _this.processing);
+      })["catch"](function (err) {
+        console.log("error");
+      });
+    },
+    updateArrival: function updateArrival() {
+      axios.put("/api/attendances/update_arrival/" + this.displayDayData.id, {
+        attendanceTime: this.displayDayData
+      }).then(function (response) {
+        console.log("success");
+      })["catch"](function (err) {
+        console.log("error");
+      });
+    },
+    updateLeave: function updateLeave() {
+      axios.put("/api/attendances/update_leave/" + this.displayDayData.id, {
+        attendanceTime: this.displayDayData
+      }).then(function (response) {
+        console.log("success");
+      })["catch"](function (err) {
+        console.log("error");
+      });
+    },
+    resetArrival: function resetArrival() {
+      var _this2 = this;
+
+      axios.put("/api/attendances/reset_arrival/" + this.displayDayData.id).then(function (response) {
+        _this2.displayDayData.arrival = response.data.arrival;
+        console.log("success");
+      })["catch"](function (err) {
+        console.log("error");
+      });
+    },
+    resetLeave: function resetLeave() {
+      var _this3 = this;
+
+      axios.put("/api/attendances/reset_leave/" + this.displayDayData.id).then(function (response) {
+        _this3.displayDayData.leave = response.data.leave;
+        console.log("success");
+      })["catch"](function (err) {
+        console.log("error");
+      });
+    },
+    updateArrivalOrUpdateLeave: function updateArrivalOrUpdateLeave(method) {
+      var currentDate = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("YYYY") + "-" + dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("MM");
+      var attendancesDbDate = this.attendancesDbDates[0].date === undefined ? null : this.attendancesDbDates[0].date.slice(0, -3);
+
+      if (currentDate === attendancesDbDate) {
+        method();
+      } else {
+        this.storeDaysData();
+      }
+    },
+    storeOrUpdateArrival: function storeOrUpdateArrival() {
+      this.updateArrivalOrUpdateLeave(this.updateArrival);
+    },
+    storeOrUpdateLeave: function storeOrUpdateLeave() {
+      this.updateArrivalOrUpdateLeave(this.updateLeave);
+    }
+  },
+  computed: _defineProperty({
+    currentMonth: function currentMonth() {
+      return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("M");
+    }
+  }, "currentMonth", function currentMonth() {
+    return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("M");
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Attendance.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Attendance.vue?vue&type=script&lang=js& ***!
@@ -1936,12 +2081,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale("ja");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1952,62 +2091,33 @@ dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale("ja");
     return {
       displayDaysData: "",
       attendancesDbDates: "",
-      userId: "",
-      message: ""
+      processing: ""
     };
   },
   methods: {
+    falseDisblead: function falseDisblead() {
+      this.processing = false;
+    },
+    isProcessing: function isProcessing() {
+      this.processing = true;
+      setTimeout(this.falseDisblead, 3000);
+    },
+    updateProcessing: function updateProcessing(processing) {
+      this.processing = processing;
+      this.isProcessing();
+    },
     getAttendnaceData: function getAttendnaceData() {
       var _this = this;
 
       axios.get("/api/attendances").then(function (response) {
         _this.displayDaysData = response.data;
-        _this.userId = response.data[0].user_id;
         _this.attendancesDbDates = response.data;
       });
-    },
-    storeDaysData: function storeDaysData() {
-      var _this2 = this;
-
-      axios.post("/api/attendances", {
-        displayDaysData: this.displayDaysData
-      }).then(function (response) {
-        _this2.displayDayData = "";
-      })["catch"](function (err) {
-        _this2.message = err;
-      });
-    },
-    updateDaysData: function updateDaysData() {
-      var _this3 = this;
-
-      axios.put("/api/attendances/" + this.userId, {
-        displayDaysData: this.displayDaysData
-      }).then(function (response) {
-        _this3.displayDayData = "";
-      })["catch"](function (err) {
-        _this3.message = err;
-      });
-    },
-    deleteDaysData: function deleteDaysData() {//
-    },
-    storeOrUpdate: function storeOrUpdate() {
-      var currentDate = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("YYYY") + "-" + dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("MM");
-      var attendancesDbDate = this.attendancesDbDates[0].date === undefined ? null : this.attendancesDbDates[0].date.slice(0, -3);
-
-      if (currentDate === attendancesDbDate) {
-        this.updateDaysData();
-      } else {
-        this.storeDaysData();
-        this.getAttendnaceData();
-      }
     }
   },
   computed: {
     currentDayjs: function currentDayjs() {
       return dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
-    },
-    currentMonth: function currentMonth() {
-      return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("M");
     },
     currentDayOfWeek: function currentDayOfWeek() {
       return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format("ddd");
@@ -37892,6 +38002,120 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c("td", [_vm._v(_vm._s(_vm.currentMonth) + "/" + _vm._s(_vm.index + 1))]),
+    _vm._v(" "),
+    _c("td", [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.displayDayData.arrival,
+            expression: "displayDayData.arrival"
+          }
+        ],
+        attrs: {
+          type: "time",
+          disabled: _vm.isset(_vm.parentProcessing)
+            ? _vm.parentProcessing
+            : false
+        },
+        domProps: { value: _vm.displayDayData.arrival },
+        on: {
+          change: _vm.storeOrUpdateArrival,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.displayDayData, "arrival", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger ml-3",
+          attrs: {
+            type: "button",
+            disabled: _vm.isset(_vm.parentProcessing)
+              ? _vm.parentProcessing
+              : false
+          },
+          on: { click: _vm.resetArrival }
+        },
+        [_vm._v("リセット")]
+      )
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.displayDayData.leave,
+            expression: "displayDayData.leave"
+          }
+        ],
+        attrs: {
+          type: "time",
+          disabled: _vm.isset(_vm.parentProcessing)
+            ? _vm.parentProcessing
+            : false
+        },
+        domProps: { value: _vm.displayDayData.leave },
+        on: {
+          change: _vm.storeOrUpdateLeave,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.displayDayData, "leave", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger ml-3",
+          attrs: {
+            type: "button",
+            disabled: _vm.isset(_vm.parentProcessing)
+              ? _vm.parentProcessing
+              : false
+          },
+          on: { click: _vm.resetLeave }
+        },
+        [_vm._v("リセット")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Attendance.vue?vue&type=template&id=16f3f314&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Attendance.vue?vue&type=template&id=16f3f314& ***!
@@ -37919,91 +38143,36 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("table", { staticClass: "table table-striped" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
+    _c(
+      "table",
+      { staticClass: "table table-striped" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
         _vm._l(_vm.displayDaysData, function(displayDayData, index) {
-          return _c("tr", { key: index }, [
-            _c("td", [
-              _vm._v(_vm._s(_vm.currentMonth) + "/" + _vm._s(index + 1))
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: displayDayData.arrival,
-                    expression: "displayDayData.arrival"
-                  }
-                ],
-                attrs: { type: "time" },
-                domProps: { value: displayDayData.arrival },
-                on: {
-                  change: _vm.storeOrUpdate,
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(displayDayData, "arrival", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger ml-5",
-                  attrs: { type: "button" },
-                  on: { click: _vm.deleteDaysData }
+          return _c(
+            "tbody",
+            { key: index },
+            [
+              _c("ajax", {
+                attrs: {
+                  displayDayData: displayDayData,
+                  index: index,
+                  attendancesDbDates: _vm.attendancesDbDates,
+                  parentProcessing: _vm.processing
                 },
-                [_vm._v("リセット")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: displayDayData.leave,
-                    expression: "displayDayData.leave"
-                  }
-                ],
-                attrs: { type: "time" },
-                domProps: { value: displayDayData.leave },
                 on: {
-                  change: _vm.storeOrUpdate,
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(displayDayData, "leave", $event.target.value)
-                  }
+                  callGetAttendance: _vm.getAttendnaceData,
+                  parentMethod: _vm.updateProcessing
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger ml-5",
-                  attrs: { type: "button" },
-                  on: { click: _vm.deleteDaysData }
-                },
-                [_vm._v("リセット")]
-              )
-            ])
-          ])
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _vm.message ? _c("p", [_vm._v(_vm._s(_vm.message))]) : _vm._e()
+              })
+            ],
+            1
+          )
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -53753,6 +53922,7 @@ dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale('ja');
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.$dayjs = dayjs__WEBPACK_IMPORTED_MODULE_0___default.a;
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('navbar', __webpack_require__(/*! ./components/Layouts/Navbar.vue */ "./resources/js/components/Layouts/Navbar.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('Ajax', __webpack_require__(/*! ./components/Ajax.vue */ "./resources/js/components/Ajax.vue")["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
   mode: 'history',
   routes: [{
@@ -53817,6 +53987,75 @@ Vue.prototype.$http = window.axios;
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/Ajax.vue":
+/*!******************************************!*\
+  !*** ./resources/js/components/Ajax.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Ajax.vue?vue&type=template&id=d8e1cdea& */ "./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea&");
+/* harmony import */ var _Ajax_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Ajax.vue?vue&type=script&lang=js& */ "./resources/js/components/Ajax.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Ajax_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Ajax.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Ajax.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/Ajax.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Ajax_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Ajax.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ajax.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Ajax_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Ajax.vue?vue&type=template&id=d8e1cdea& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ajax.vue?vue&type=template&id=d8e1cdea&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ajax_vue_vue_type_template_id_d8e1cdea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

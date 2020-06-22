@@ -118,11 +118,9 @@ export default {
           : this.attendancesDbDates[0].date.slice(0, -3);
 
       if (currentDate === attendancesDbDate) {
-        console.log("update");
         method();
       } else {
         this.storeDaysData();
-        console.log("store");
       }
     },
     storeOrUpdateArrival() {
