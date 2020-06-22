@@ -2,12 +2,32 @@
   <tr>
     <td>{{ currentMonth}}/{{ index+1}}</td>
     <td>
-      <input type="time" @change="storeOrUpdateArrival" v-model="displayDayData.arrival" />
-      <button type="button" @click="resetArrival" class="btn btn-danger ml-3">リセット</button>
+      <input
+        type="time"
+        :disabled="isset(parentProcessing) ? parentProcessing : false"
+        @change="storeOrUpdateArrival"
+        v-model="displayDayData.arrival"
+      />
+      <button
+        type="button"
+        :disabled="isset(parentProcessing) ? parentProcessing : false"
+        @click="resetArrival"
+        class="btn btn-danger ml-3"
+      >リセット</button>
     </td>
     <td>
-      <input type="time" @change="storeOrUpdateLeave" v-model="displayDayData.leave" />
-      <button type="button" @click="resetLeave" class="btn btn-danger ml-3">リセット</button>
+      <input
+        type="time"
+        :disabled="isset(parentProcessing) ? parentProcessing : false"
+        @change="storeOrUpdateLeave"
+        v-model="displayDayData.leave"
+      />
+      <button
+        type="button"
+        :disabled="isset(parentProcessing) ? parentProcessing : false"
+        @click="resetLeave"
+        class="btn btn-danger ml-3"
+      >リセット</button>
     </td>
   </tr>
 </template>
@@ -16,13 +36,20 @@
 import dayjs from "dayjs";
 dayjs.locale("ja");
 export default {
-  props: ["displayDayData", "index", "attendancesDbDates"],
+  props: ["displayDayData", "index", "attendancesDbDates", "parentProcessing"],
   data() {
     return {
-      attendancesDates: this.attendancesDbDates
+      attendancesDates: this.attendancesDbDates,
     };
   },
   methods: {
+    isset(data) {
+      if (data === "" || data === null || data === undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     storeDaysData() {
       axios
         .post("/api/attendances", {
@@ -30,6 +57,8 @@ export default {
         })
         .then(response => {
           console.log("success");
+          this.$emit("callGetAttendance");
+          this.$emit("parentMethod", this.processing);
         })
         .catch(err => {
           console.log("error");
@@ -87,11 +116,13 @@ export default {
         this.attendancesDbDates[0].date === undefined
           ? null
           : this.attendancesDbDates[0].date.slice(0, -3);
+
       if (currentDate === attendancesDbDate) {
+        console.log("update");
         method();
       } else {
         this.storeDaysData();
-        this.$emit("callGetAttendance");
+        console.log("store");
       }
     },
     storeOrUpdateArrival() {
@@ -104,9 +135,7 @@ export default {
   computed: {
     currentMonth() {
       return dayjs().format("M");
-    }
-  },
-  computed: {
+    },
     currentMonth() {
       return dayjs().format("M");
     }

@@ -11,12 +11,14 @@
         </tr>
       </thead>
       <tbody v-for="(displayDayData, index) in displayDaysData" :key="index">
-        <Ajax
+        <ajax
           :displayDayData="displayDayData"
           :index="index"
           :attendancesDbDates="attendancesDbDates"
+          :parentProcessing="processing"
           @callGetAttendance="getAttendnaceData"
-        ></Ajax>
+          @parentMethod="updateProcessing"
+        ></ajax>
       </tbody>
     </table>
   </div>
@@ -33,9 +35,21 @@ export default {
     return {
       displayDaysData: "",
       attendancesDbDates: "",
+      processing: ""
     };
   },
   methods: {
+    falseDisblead() {
+      this.processing = false;
+    },
+    isProcessing() {
+      this.processing = true;
+      setTimeout(this.falseDisblead, 3000);
+    },
+    updateProcessing(processing) {
+      this.processing = processing;
+      this.isProcessing();
+    },
     getAttendnaceData() {
       axios.get("/api/attendances").then(response => {
         this.displayDaysData = response.data;
