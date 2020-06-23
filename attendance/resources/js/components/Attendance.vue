@@ -12,9 +12,9 @@
       </thead>
       <tbody v-for="(displayDayData, index) in displayDaysData" :key="index">
         <timecard-row
-          :displayDayData="displayDayData"
+          :display-day-data="displayDayData"
           :index="index"
-          :attendancesDbDates="attendancesDbDates"
+          :attendances-db-dates="attendancesDbDates"
           @callGetAttendance="getAttendnaceData"
         ></timecard-row>
       </tbody>
