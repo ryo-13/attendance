@@ -2,32 +2,12 @@
   <tr>
     <td>{{ currentMonth}}/{{ index+1}}</td>
     <td>
-      <input
-        type="time"
-        :disabled="isset(parentProcessing) ? parentProcessing : false"
-        @change="storeOrUpdateArrival"
-        v-model="displayDayData.arrival"
-      />
-      <button
-        type="button"
-        :disabled="isset(parentProcessing) ? parentProcessing : false"
-        @click="resetArrival"
-        class="btn btn-danger ml-3"
-      >リセット</button>
+      <input type="time" @change="storeOrUpdateArrival" v-model="displayDayData.arrival" />
+      <button type="button" @click="resetArrival" class="btn btn-danger ml-3">リセット</button>
     </td>
     <td>
-      <input
-        type="time"
-        :disabled="isset(parentProcessing) ? parentProcessing : false"
-        @change="storeOrUpdateLeave"
-        v-model="displayDayData.leave"
-      />
-      <button
-        type="button"
-        :disabled="isset(parentProcessing) ? parentProcessing : false"
-        @click="resetLeave"
-        class="btn btn-danger ml-3"
-      >リセット</button>
+      <input type="time" @change="storeOrUpdateLeave" v-model="displayDayData.leave" />
+      <button type="button" @click="resetLeave" class="btn btn-danger ml-3">リセット</button>
     </td>
   </tr>
 </template>
@@ -36,21 +16,15 @@
 import dayjs from "dayjs";
 dayjs.locale("ja");
 export default {
-  props: ["displayDayData", "index", "attendancesDbDates", "parentProcessing"],
+  props: ["displayDayData", "index", "attendancesDbDates"],
   data() {
     return {
-      attendancesDates: this.attendancesDbDates,
+      attendancesDates: this.attendancesDbDates
     };
   },
   methods: {
-    isset(data) {
-      if (data === "" || data === null || data === undefined) {
-        return false;
-      } else {
-        return true;
-      }
-    },
     storeDaysData() {
+      let loader = Vue.$loading.show();
       axios
         .post("/api/attendances", {
           displayDaysData: this.attendancesDates
@@ -58,13 +32,17 @@ export default {
         .then(response => {
           console.log("success");
           this.$emit("callGetAttendance");
-          this.$emit("parentMethod", this.processing);
         })
         .catch(err => {
           console.log("error");
+        })
+
+        .finally(() => {
+          loader.hide();
         });
     },
     updateArrival() {
+      let loader = Vue.$loading.show();
       axios
         .put("/api/attendances/update_arrival/" + this.displayDayData.id, {
           attendanceTime: this.displayDayData
@@ -74,9 +52,13 @@ export default {
         })
         .catch(err => {
           console.log("error");
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     updateLeave() {
+      let loader = Vue.$loading.show();
       axios
         .put("/api/attendances/update_leave/" + this.displayDayData.id, {
           attendanceTime: this.displayDayData
@@ -86,9 +68,13 @@ export default {
         })
         .catch(err => {
           console.log("error");
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     resetArrival() {
+      let loader = Vue.$loading.show();
       axios
         .put("/api/attendances/reset_arrival/" + this.displayDayData.id)
         .then(response => {
@@ -97,9 +83,13 @@ export default {
         })
         .catch(err => {
           console.log("error");
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     resetLeave() {
+      let loader = Vue.$loading.show();
       axios
         .put("/api/attendances/reset_leave/" + this.displayDayData.id)
         .then(response => {
@@ -108,6 +98,9 @@ export default {
         })
         .catch(err => {
           console.log("error");
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     updateArrivalOrUpdateLeave(method) {

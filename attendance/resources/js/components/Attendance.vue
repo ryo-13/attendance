@@ -11,50 +11,46 @@
         </tr>
       </thead>
       <tbody v-for="(displayDayData, index) in displayDaysData" :key="index">
-        <ajax
+        <timecard-row
           :displayDayData="displayDayData"
           :index="index"
           :attendancesDbDates="attendancesDbDates"
-          :parentProcessing="processing"
           @callGetAttendance="getAttendnaceData"
-          @parentMethod="updateProcessing"
-        ></ajax>
+        ></timecard-row>
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
+import TimecardRow from "./TimecardRow.vue";
 import dayjs from "dayjs";
 dayjs.locale("ja");
 export default {
+  components: {
+    "timecard-row": TimecardRow
+  },
   created() {
     this.getAttendnaceData();
   },
   data() {
     return {
       displayDaysData: "",
-      attendancesDbDates: "",
-      processing: ""
+      attendancesDbDates: ""
     };
   },
   methods: {
-    falseDisblead() {
-      this.processing = false;
-    },
-    isProcessing() {
-      this.processing = true;
-      setTimeout(this.falseDisblead, 3000);
-    },
-    updateProcessing(processing) {
-      this.processing = processing;
-      this.isProcessing();
-    },
     getAttendnaceData() {
-      axios.get("/api/attendances").then(response => {
-        this.displayDaysData = response.data;
-        this.attendancesDbDates = response.data;
-      });
+      let loader = Vue.$loading.show();
+      axios
+        .get("/api/attendances")
+        .then(response => {
+          this.displayDaysData = response.data;
+          this.attendancesDbDates = response.data;
+        })
+        .finally(() => {
+          loader.hide();
+        });
     }
   },
   computed: {
