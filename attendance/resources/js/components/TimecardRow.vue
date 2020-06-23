@@ -127,9 +127,6 @@ export default {
     currentMonth() {
       return dayjs().format("M");
     },
-    currentMonth() {
-      return dayjs().format("M");
-    }
   }
 };
 </script>
