@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Front\Api;
 
 use Carbon\Carbon;
-use App\Models\User;
 use Carbon\CarbonPeriod;
 use App\Models\Attendance;
 use App\Http\Controllers\Controller;
