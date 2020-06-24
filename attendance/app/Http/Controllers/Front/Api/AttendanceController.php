@@ -27,11 +27,11 @@ class AttendanceController extends Controller
         $startOrEndOfMonth = CarbonPeriod::create($startOfMonth, $endOfMonth)->days();
 
         $daysOfWeekForMonth = [];
-        foreach ($startOrEndOfMonth as $date) {
-            $daysOfWeekForMonth[] =  $date->isoFormat('ddd');
+        foreach ($startOrEndOfMonth as $dayOfWeek) {
+            $daysOfWeekForMonth[] =  $dayOfWeek->isoFormat('ddd');
         }
 
-        $attendances = User::find(Auth::id())->attendances()->get();
+        $attendances = Auth::user()->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
             foreach ($daysOfWeekForMonth as $key => $value) {
@@ -48,7 +48,7 @@ class AttendanceController extends Controller
         foreach ($daysOfWeekForMonth as $key => $value) {
             $day = $key + 1;
             $date = "{$dt->year}-{$dt->month}-{$day}";
-            $attendances[] = User::find(Auth::id())->attendances()->where('date', $date)->first();
+            $attendances[] = Auth::user()->attendances()->where('date', $date)->first();
         }
 
         return $attendances;
@@ -61,7 +61,6 @@ class AttendanceController extends Controller
      */
     public function storeAttendances(AttendanceStoreRequest $request)
     {
-
         $dt = new Carbon;
         $attendances = [];
         foreach ($request->displayDaysData as $key => $value) {
