@@ -14,7 +14,7 @@ class AddDayOfMonthAttendancesTable extends Migration
     public function up()
     {
         Schema::table('attendances', function (Blueprint $table) {
-            $table->string('day_of_month')->after('leave')->nullable();
+            $table->string('day_of_week')->after('leave')->comment('曜日')->nullable();
         });
     }
 
