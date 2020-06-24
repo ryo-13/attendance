@@ -23,12 +23,14 @@ class AttendanceController extends Controller
         $startOfMonth = $dt->now()->startOfMonth();
         $endOfMonth = $dt->now()->endOfMonth();
 
-        $startOrEndOfMonth = CarbonPeriod::create($startOfMonth, $endOfMonth)->days();
+        $currentMonthPeriod = CarbonPeriod::create($startOfMonth, $endOfMonth)->days();
+        // \Debugbar::addMessage('aiueo');
+        \Debugbar::addMessage($currentMonthPeriod->format('ddd'));
 
-        $daysOfWeekForMonth = [];
-        foreach ($startOrEndOfMonth as $dayOfWeek) {
-            $daysOfWeekForMonth[] =  $dayOfWeek->isoFormat('ddd');
-        }
+        // $daysOfWeekForMonth = [];
+        // foreach ($startOrEndOfMonth as $dayOfWeek) {
+        //     $daysOfWeekForMonth[] =  $dayOfWeek->isoFormat('ddd');
+        // }
 
         $attendances = Auth::user()->attendances()->get();
         if ($attendances->isEmpty()) {
