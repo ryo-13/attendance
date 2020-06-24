@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\Api;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Carbon\CarbonPeriod;
 use App\Models\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,28 +21,36 @@ class AttendanceController extends Controller
     public function getAttendances()
     {
         $dt = new Carbon;
-        $days = [];
-        for ($i = 1; $i <= $dt->daysInMonth; $i++) {
-            $days[] = $i;
+        $startOfMonth = $dt->now()->startOfMonth();
+        $endOfMonth = $dt->now()->endOfMonth();
+
+        $startOrEndOfMonth = CarbonPeriod::create($startOfMonth, $endOfMonth)->days();
+
+        $daysOfWeekForMonth = [];
+        foreach ($startOrEndOfMonth as $date) {
+            $daysOfWeekForMonth[] =  $date->isoFormat('ddd');
         }
 
         $attendances = User::find(Auth::id())->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
-            foreach ($days as $day) {
+            foreach ($daysOfWeekForMonth as $key => $value) {
                 $attendances[] = [
                     'arrival' => null,
                     'leave' => null,
+                    'day_of_month' => $value,
                 ];
             }
             return $attendances;
         }
 
         $attendances = [];
-        foreach ($days as $day) {
+        foreach ($daysOfWeekForMonth as $key => $value) {
+            $day = $key + 1;
             $date = "{$dt->year}-{$dt->month}-{$day}";
             $attendances[] = User::find(Auth::id())->attendances()->where('date', $date)->first();
         }
+
         return $attendances;
     }
 
@@ -61,7 +70,8 @@ class AttendanceController extends Controller
                 'user_id' => Auth::id(),
                 'date' =>  "{$dt->year}-{$dt->month}-{$day}",
                 'arrival' => $value['arrival'],
-                'leave' => $value['leave']
+                'leave' => $value['leave'],
+                'day_of_month' => $value['day_of_month'],
             ]);
         }
     }

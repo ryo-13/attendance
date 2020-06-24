@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ currentMonth}}/{{ index+1}}</td>
+    <td>{{ currentMonth}}/{{ index+1}}({{ displayDayData.day_of_month }})</td>
     <td>
       <input type="time" @change="storeOrUpdateArrival" v-model="displayDayData.arrival" />
       <button type="button" @click="resetArrival" class="btn btn-danger ml-3">リセット</button>
