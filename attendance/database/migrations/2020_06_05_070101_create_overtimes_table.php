@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class OvertimesTable extends Migration
+class CreateOvertimesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class OvertimesTable extends Migration
     {
         Schema::create('overtimes', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('残業ID') ;
-            $table->integer('attendance_id')->comment('出退勤ID');
+            $table->unsignedBiginteger('attendance_id')->comment('出退勤ID');
             $table->time('overtime')->comment('残業時間');
             $table->string('overtime_reason')->comment('残業理由');
             $table->boolean('is_permitted')->comment('残業許可');

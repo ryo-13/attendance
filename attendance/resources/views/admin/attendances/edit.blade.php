@@ -5,24 +5,23 @@
 <div class="container mt-5 mx-auto">
     <div class="row">
 
-        @component('components.admin.sidebar')
-        @endcomponent
+        @include('components.admin.sidebar')
 
         <div class="col">
             <h1>出退勤時間更新</h1>
-            <form action="" method="POST">
+            <form action="{{ route('admin.attendances.update',$attendance->id) }}" method="POST">
                 @csrf
 
                 <div class="form-group">
-                    <label for="coming_to_work">出社</label>
-                    <input type="time" name="coming_to_work"
-                        class="form-control @error ('comming_to_work')is-invalid @enderror" style="width: 145px">
+                    <label for="arrival">出社</label>
+                    <input type="time" id="arrival"  name="arrival" value="{{ old('arrival', $attendance->arrival) }}"
+                        class="form-control @error ('arrival')is-invalid @enderror" style="width: 145px">
                 </div>
 
                 <div class="form-group">
-                    <label for="leaving_the_company">退社</label>
-                    <input type="time" name="leaving_the_company"
-                        class="form-control @error ('leaving_the_company')is-invalid @enderror" style="width: 145px">
+                    <label for="leave">退社</label>
+                    <input type="time" id="leave" name="leave" value="{{ old('leave', $attendance->leave) }}"
+                        class="form-control @error ('leave')is-invalid @enderror" style="width: 145px">
                 </div>
 
                 <div class="form-group">
@@ -31,8 +30,8 @@
                         style="width: 145px">
                 </div>
 
-                <button><a href="出退勤一覧へ">キャンセル</a></button>
-                <button type="submit" class="ml-2 bg-info">更新</button>
+                <a href="{{ route('admin.attendances.index') }}" class="btn btn-primary btn-lg">キャンセル</a>
+                <button type="submit" class="btn btn-primary btn-lg">更新</button>
             </form>
         </div>
 
