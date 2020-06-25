@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AttendanceStoreRequest extends FormRequest
+class AttendanceArrivalUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,6 @@ class AttendanceStoreRequest extends FormRequest
     {
         return [
             'arrival' => 'date_format:H:i',
-            'leave' => 'date_format:H:i',
         ];
     }
 
@@ -35,7 +34,6 @@ class AttendanceStoreRequest extends FormRequest
     {
         return [
             'arrival.date_format:H:i' => '時間形式で入力してください。',
-            'leave.date_format:H:i' => '時間形式で入力してください。',
         ];
     }
 

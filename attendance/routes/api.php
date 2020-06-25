@@ -22,6 +22,8 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     // 出退勤
     Route::get('attendances', 'AttendanceController@getAttendances')->name('api.attendances.getAttendances');
     Route::post('attendances', 'AttendanceController@storeAttendances')->name('api.attendances.storeAttendances');
-    Route::put('attendances/{attendance}', 'AttendanceController@updateAttendances')->name('api.attendances.updateAttendances');
-    Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('api.attendances.delete');
+    Route::put('attendances/update_arrival/{attendance}', 'AttendanceController@updateArrival')->name('api.attendances.updateArrival');
+    Route::put('attendances/update_leave/{attendance}', 'AttendanceController@updateLeave')->name('api.attendances.updateLeave');
+    Route::put('attendances/reset_arrival/{attendance}', 'AttendanceController@resetArrival')->name('api.attendances.resetArrival');
+    Route::put('attendances/reset_leave/{attendance}', 'AttendanceController@resetLeave')->name('api.attendances.resetLeave');
 });

@@ -2,15 +2,18 @@ window.Vue = require('vue');
 
 require('./bootstrap');
 
-
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 dayjs.locale('ja');
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
+
+Vue.use(VueRouter);
 Vue.prototype.$dayjs = dayjs;
 
 Vue.component('navbar', require('./components/Layouts/Navbar.vue').default);
@@ -22,9 +25,9 @@ const router = new VueRouter({
         { path: '/user', component: require('./components/User.vue').default },
         { path: '/overtime', component: require('./components/Overtime.vue').default },
     ]
-})
+});
 
 new Vue({
     router,
     el: '#app',
-})
+});
