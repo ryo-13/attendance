@@ -8,7 +8,8 @@ use App\Models\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Front\API\AttendanceStoreRequest;
-use App\Http\Requests\Front\API\AttendanceUpdateRequest;
+use App\Http\Requests\Front\API\AttendanceLeaveUpdateRequest;
+use App\Http\Requests\Front\API\AttendanceArrivalUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -23,33 +24,25 @@ class AttendanceController extends Controller
         $startOfMonth = $dt->now()->startOfMonth();
         $endOfMonth = $dt->now()->endOfMonth();
 
-        $currentMonthPeriod = CarbonPeriod::create($startOfMonth, $endOfMonth)->days();
-        // \Debugbar::addMessage('aiueo');
-        \Debugbar::addMessage($currentMonthPeriod->format('ddd'));
-
-        // $daysOfWeekForMonth = [];
-        // foreach ($startOrEndOfMonth as $dayOfWeek) {
-        //     $daysOfWeekForMonth[] =  $dayOfWeek->isoFormat('ddd');
-        // }
+        $currentMonthPeriod = CarbonPeriod::create($startOfMonth, $endOfMonth);
 
         $attendances = Auth::user()->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
-            foreach ($daysOfWeekForMonth as $key => $value) {
+
+            foreach ($currentMonthPeriod as $currentMonthDay) {
                 $attendances[] = [
                     'arrival' => null,
                     'leave' => null,
-                    'day_of_month' => $value,
+                    'day_of_week' => $currentMonthDay->isoFormat('ddd'),
                 ];
             }
             return $attendances;
         }
 
         $attendances = [];
-        foreach ($daysOfWeekForMonth as $key => $value) {
-            $day = $key + 1;
-            $date = "{$dt->year}-{$dt->month}-{$day}";
-            $attendances[] = Auth::user()->attendances()->where('date', $date)->first();
+        foreach ($currentMonthPeriod as $currentMonthDay) {
+            $attendances[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
         }
 
         return $attendances;
@@ -71,9 +64,11 @@ class AttendanceController extends Controller
                 'date' =>  "{$dt->year}-{$dt->month}-{$day}",
                 'arrival' => $value['arrival'],
                 'leave' => $value['leave'],
-                'day_of_month' => $value['day_of_month'],
+                'day_of_week' => $value['day_of_week'],
             ]);
         }
+
+        return $attendances;
     }
 
     /**
@@ -81,9 +76,9 @@ class AttendanceController extends Controller
      *
      * @param UpdateAttendanceRequest $request
      */
-    public function updateArrival(AttendanceUpdateRequest $request, Attendance $attendance)
+    public function updateArrival(AttendanceArrivalUpdateRequest $request, Attendance $attendance)
     {
-        $attendance->update([
+        return  $attendance->update([
             'arrival' => $request->attendanceTime['arrival']
         ]);
     }
@@ -93,9 +88,9 @@ class AttendanceController extends Controller
      *
      * @param UpdateAttendanceRequest $request
      */
-    public function updateLeave(AttendanceUpdateRequest $request, Attendance $attendance)
+    public function updateLeave(AttendanceLeaveUpdateRequest $request, Attendance $attendance)
     {
-        $attendance->update([
+        return $attendance->update([
             'leave' => $request->attendanceTime['leave']
         ]);
     }
@@ -108,7 +103,7 @@ class AttendanceController extends Controller
      */
     public function resetArrival(Attendance $attendance)
     {
-        $attendance->update([
+        return $attendance->update([
             'arrival' => null
         ]);
     }
@@ -121,7 +116,7 @@ class AttendanceController extends Controller
      */
     public function resetLeave(Attendance $attendance)
     {
-        $attendance->update([
+        return $attendance->update([
             'leave' => null
         ]);
     }

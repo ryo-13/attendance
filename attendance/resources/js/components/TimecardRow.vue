@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ currentMonth}}/{{ index+1}}({{ displayDayData.day_of_month }})</td>
+    <td>{{ currentMonth}}/{{ index+1}}({{ displayDayData.day_of_week }})</td>
     <td>
       <input type="time" @change="storeOrUpdateArrival" v-model="displayDayData.arrival" />
       <button type="button" @click="resetArrival" class="btn btn-danger ml-3">リセット</button>
@@ -36,7 +36,6 @@ export default {
         .catch(err => {
           console.log("error");
         })
-
         .finally(() => {
           loader.hide();
         });
@@ -93,6 +92,7 @@ export default {
       axios
         .put("/api/attendances/reset_leave/" + this.displayDayData.id)
         .then(response => {
+          console.log(response);
           this.displayDayData.leave = response.data.leave;
           console.log("success");
         })
@@ -126,7 +126,7 @@ export default {
   computed: {
     currentMonth() {
       return dayjs().format("M");
-    },
+    }
   }
 };
 </script>

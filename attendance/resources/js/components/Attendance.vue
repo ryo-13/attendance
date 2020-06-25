@@ -48,6 +48,9 @@ export default {
           this.displayDaysData = response.data;
           this.attendancesDbDates = response.data;
         })
+        .catch(err => {
+          console.log("error");
+        })
         .finally(() => {
           loader.hide();
         });
