@@ -27,25 +27,23 @@ class AttendanceController extends Controller
         $currentMonthPeriod = CarbonPeriod::create($startOfMonth, $endOfMonth);
 
         $attendances = Auth::user()->attendances()->get();
-        if ($attendances->isEmpty()) {
-            $attendances = [];
 
+        $results = [];
+        if ($attendances->isEmpty()) {
             foreach ($currentMonthPeriod as $currentMonthDay) {
-                $attendances[] = [
+                $results[] = [
                     'arrival' => null,
                     'leave' => null,
                     'day_of_week' => $currentMonthDay->isoFormat('ddd'),
                 ];
             }
-            return $attendances;
+            return $results;
         }
 
-        $attendances = [];
         foreach ($currentMonthPeriod as $currentMonthDay) {
-            $attendances[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
+            $results[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
         }
-
-        return $attendances;
+        return $results;
     }
 
     /**
@@ -67,8 +65,7 @@ class AttendanceController extends Controller
                 'day_of_week' => $value['day_of_week'],
             ]);
         }
-
-        return $attendances;
+        return response()->json($attendances);
     }
 
     /**
@@ -78,9 +75,10 @@ class AttendanceController extends Controller
      */
     public function updateArrival(AttendanceArrivalUpdateRequest $request, Attendance $attendance)
     {
-        return  $attendance->update([
+        $response = $attendance->update([
             'arrival' => $request->attendanceTime['arrival']
         ]);
+        return response()->success($response);
     }
 
     /**
@@ -90,9 +88,10 @@ class AttendanceController extends Controller
      */
     public function updateLeave(AttendanceLeaveUpdateRequest $request, Attendance $attendance)
     {
-        return $attendance->update([
+        $response = $attendance->update([
             'leave' => $request->attendanceTime['leave']
         ]);
+        return response()->json($response);
     }
 
     /**
@@ -103,9 +102,10 @@ class AttendanceController extends Controller
      */
     public function resetArrival(Attendance $attendance)
     {
-        return $attendance->update([
+        $response = $attendance->update([
             'arrival' => null
         ]);
+        return response()->json($response);
     }
 
     /**
@@ -116,8 +116,9 @@ class AttendanceController extends Controller
      */
     public function resetLeave(Attendance $attendance)
     {
-        return $attendance->update([
+        $response = $attendance->update([
             'leave' => null
         ]);
+        return response()->json($response);
     }
 }
