@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\AttendanceUpdateRequest;
 use App\Models\Attendance;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -14,16 +15,19 @@ class AttendanceController extends Controller
     public function index()
     {
         $attendances = Attendance::query()->get();
-        $getdate = date("Y-m-d");
+        $today = Carbon::today()->toDateString();
+        $breaktime = Carbon::createFromTime(01,00,00);
 
         foreach ($attendances as $attendance) {
-             $attendance['worktime'] = date("H:i:s", strtotime($attendance->leave) -
-                 strtotime($attendance->arrival)-strtotime("01:00:00"));
+            $arrival = new Carbon($attendance->arrival);
+            $leave = new Carbon($attendance->leave);
+             $attendance['worktime'] = date("H:i:s", strtotime($leave) -
+                 strtotime($arrival)-strtotime($breaktime));
         }
 
         return view('admin.attendances.index',compact(
             'attendances',
-            'getdate'
+            'today'
         ));
     }
 
