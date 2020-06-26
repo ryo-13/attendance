@@ -54,3 +54,7 @@ Route::namespace('Front')->group(function () {
         })->where('any', '.*');
     });
 });
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::post('auth/video-chat', 'Front\VideoChatController@auth')->name('videoChat.auth');
+});

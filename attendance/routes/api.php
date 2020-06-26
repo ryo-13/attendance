@@ -25,3 +25,8 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     Route::put('attendances/{attendance}', 'AttendanceController@updateAttendances')->name('api.attendances.updateAttendances');
     Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('api.attendances.delete');
 });
+Route::middleware('auth:api')->namespace('Front')->group(function() {
+    //ビデオ
+    Route::get('video-chat', 'VideoChatController@index')->name('api.videoChat.index');
+
+});
