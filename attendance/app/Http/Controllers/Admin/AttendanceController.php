@@ -16,13 +16,11 @@ class AttendanceController extends Controller
     {
         $attendances = Attendance::query()->get();
         $today = Carbon::today()->toDateString();
-        $breaktime = Carbon::createFromTime(01,00,00);
 
         foreach ($attendances as $attendance) {
             $arrival = new Carbon($attendance->arrival);
             $leave = new Carbon($attendance->leave);
-             $attendance['worktime'] = date("H:i:s", strtotime($leave) -
-                 strtotime($arrival)-strtotime($breaktime));
+            $attendance['worktime'] = gmdate('H:i:s', $arrival->diffInSeconds($leave->subHour()));
         }
 
         return view('admin.attendances.index',compact(
