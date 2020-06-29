@@ -46,6 +46,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 Route::namespace('Front')->group(function () {
     Auth::routes();
 
+    Route::group(['middleware' => 'auth'], function(){
+        Route::post('auth/video-chat', 'API\VideoChatController@auth')->name('videoChat.auth');
+    });
+
     //ログイン認証後
     Route::middleware('auth:user')->group(function () {
         // SPA画面
@@ -53,8 +57,4 @@ Route::namespace('Front')->group(function () {
             return view('front/attendances/index');
         })->where('any', '.*');
     });
-});
-
-Route::group(['middleware' => 'auth'], function(){
-    Route::post('auth/video-chat', 'Front\VideoChatController@auth')->name('videoChat.auth');
 });
