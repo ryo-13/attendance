@@ -26,4 +26,7 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     Route::put('attendances/update_leave/{attendance}', 'AttendanceController@updateLeave')->name('api.attendances.updateLeave');
     Route::put('attendances/reset_arrival/{attendance}', 'AttendanceController@resetArrival')->name('api.attendances.resetArrival');
     Route::put('attendances/reset_leave/{attendance}', 'AttendanceController@resetLeave')->name('api.attendances.resetLeave');
+    //遅刻
+    Route::get('video-chat', 'VideoChatController@getDataForPusher')->name('api.videoChat.getDataForPusher');
+    Route::post('auth/video-chat', 'VideoChatController@auth')->name('api.videoChat.auth');
 });

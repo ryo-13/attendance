@@ -46,6 +46,10 @@
                 <div><i class="far fa-user fa-2x"></i></div>
                 <router-link class="navbar-brand text-dark" to="/user">作業者情報画面</router-link>
             </li>
+            <li class="nav-item">
+                <div><i class="fas fa-phone-volume fa-2x"></i></div>
+                <router-link class="navbar-brand text-dark" to="/late">遅刻連絡</router-link>
+            </li>
         </ul>
     </nav>
     <div v-if="success" class="alert alert-success">
