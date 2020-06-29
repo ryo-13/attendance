@@ -17,11 +17,12 @@ class VideoChatController extends Controller
     {
         $user = $request->user();
         $others = User::where('id', '!=', $user->id)->pluck('name', 'id');
-        $response = collect();
-        $response['user'] = $user;
-        $response['pusherKey'] = config('broadcasting.connections.pusher.key');
-        $response['pusherCluster'] = config('broadcasting.connections.pusher.options.cluster');
-        $response['others'] = $others;
+        $response = collect([
+            'user' => $user,
+            'pusherKey' => config('broadcasting.connections.pusher.key'),
+            'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'others' => $others,
+        ]);
         return $response;
     }
 
