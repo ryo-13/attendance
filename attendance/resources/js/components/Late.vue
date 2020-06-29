@@ -132,11 +132,11 @@ export default {
                 this.stream = stream;
 
                 const pusher = new Pusher(this.pusherKey, {
-                    authEndpoint: '/auth/video-chat',
+                    authEndpoint: '/api/auth/video-chat',
                     cluster: this.pusherCluster,
                     auth: {
                         headers: {
-                            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                            'Authorization': 'Bearer ' + this.user.api_token,
                         }
                     }
                 });

@@ -13,7 +13,7 @@ class VideoChatController extends Controller
      * @param Request $request
      * @return \Illuminate\Support\Collection
      */
-    public function index(Request $request)
+    public function getDataForPusher(Request $request)
     {
         $user = $request->user();
         $others = User::where('id', '!=', $user->id)->pluck('name', 'id');
