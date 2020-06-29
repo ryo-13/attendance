@@ -1,5 +1,6 @@
 <template>
   <tr>
+    {{ message }}
     <td>{{ currentMonth}}/{{ index+1}}({{ displayDayData.day_of_week }})</td>
     <td>
       <input type="time" @change="storeOrUpdateArrival" v-model="displayDayData.arrival" />
@@ -19,7 +20,8 @@ export default {
   props: ["displayDayData", "index", "attendancesDbDates"],
   data() {
     return {
-      attendancesDates: this.attendancesDbDates
+      attendancesDates: this.attendancesDbDates,
+      message: ""
     };
   },
   methods: {
@@ -92,7 +94,6 @@ export default {
       axios
         .put("/api/attendances/reset_leave/" + this.displayDayData.id)
         .then(response => {
-          console.log(response);
           this.displayDayData.leave = response.data.leave;
           console.log("success");
         })
