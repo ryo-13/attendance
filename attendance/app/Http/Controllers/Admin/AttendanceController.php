@@ -2,41 +2,55 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\AttendanceUpdateRequest;
+use App\Models\Attendance;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('admin.attendances.index');
+        $attendances = Attendance::query()->get();
+        $today = Carbon::today()->toDateString();
+
+        foreach ($attendances as $attendance) {
+            $arrival = new Carbon($attendance->arrival);
+            $leave = new Carbon($attendance->leave);
+            $attendance['worktime'] = gmdate('H:i:s', $arrival->diffInSeconds($leave->subHour()));
+        }
+
+        return view('admin.attendances.index',compact(
+            'attendances',
+            'today'
+        ));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Attendance $attendance
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Attendance $attendance)
     {
-        return view('admin.attendances.edit');
+        return view('admin.attendances.edit',compact(
+            'attendance'
+        ));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param AttendanceUpdateRequest $request
+     * @param Attendance $attendance
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function update(Request $request, $id)
+    public function update(AttendanceUpdateRequest $request, Attendance $attendance)
     {
-        // TODO 出退勤更新機能を実装する
+        $parameters = $request->validated();
+
+        $attendance->update($parameters);
+
+        return redirect(route('admin.attendances.index'));
     }
 }

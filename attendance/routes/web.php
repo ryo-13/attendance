@@ -26,7 +26,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         // 出退勤
         Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
-        Route::get('attendances/{user}/edit', 'AttendanceController@edit')->name('attendances.edit');
+        Route::get('attendances/{attendance}/edit', 'AttendanceController@edit')->name('attendances.edit');
+        Route::post('attendances/{attendance}/update', 'AttendanceController@update')->name('attendances.update');
 
         // 作業者
         Route::get('users', 'UserController@index')->name('users.index');
