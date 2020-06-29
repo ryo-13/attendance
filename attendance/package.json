@@ -25,5 +25,8 @@
         "vue": "^2.5.17",
         "vue-router": "^3.0.0",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "vue-loading-overlay": "^3.3.2"
     }
 }

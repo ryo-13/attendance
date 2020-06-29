@@ -1,5 +1,4 @@
 <template>
-  <!-- 出退勤時間照会・作成・更新 -->
   <div>
     <h1>タイムカード</h1>
     <span>{{ $dayjs().format('YYYY[年]MM[月]DD[日]')}}({{ currentDayOfWeek }})</span>
@@ -11,92 +10,55 @@
           <th>退社</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(displayDayData, index) in displayDaysData" :key="index">
-          <td>{{ currentMonth}}/{{ index+1}}</td>
-          <td>
-            <input type="time" @change="storeOrUpdate" v-model="displayDayData.arrival" />
-          </td>
-          <td>
-            <input type="time" @change="storeOrUpdate" v-model="displayDayData.leave" />
-          </td>
-        </tr>
+      <tbody v-for="(displayDayData, index) in displayDaysData" :key="index">
+        <timecard-row
+          :display-day-data="displayDayData"
+          :index="index"
+          :attendances-db-dates="attendancesDbDates"
+          @callGetAttendance="getAttendnaceData"
+        ></timecard-row>
       </tbody>
     </table>
-
-    <p v-if="message">{{ message }}</p>
   </div>
 </template>
 
 <script>
+import TimecardRow from "./TimecardRow.vue";
 import dayjs from "dayjs";
 dayjs.locale("ja");
-
 export default {
+  components: {
+    "timecard-row": TimecardRow
+  },
   created() {
     this.getAttendnaceData();
   },
   data() {
     return {
       displayDaysData: "",
-      attendancesDbDates: "",
-      userId: "",
-      message: ""
+      attendancesDbDates: ""
     };
   },
   methods: {
     getAttendnaceData() {
-      axios.get("/api/attendances").then(response => {
-        this.displayDaysData = response.data;
-        this.userId = response.data[0].user_id;
-        this.attendancesDbDates = response.data;
-      });
-    },
-    storeDaysData() {
+      let loader = Vue.$loading.show();
       axios
-        .post("/api/attendances", {
-          displayDaysData: this.displayDaysData
-        })
+        .get("/api/attendances")
         .then(response => {
-          this.displayDayData = "";
+          this.displayDaysData = response.data;
+          this.attendancesDbDates = response.data;
         })
         .catch(err => {
-          this.message = err;
-        });
-    },
-    updateDaysData() {
-      axios
-        .put("/api/attendances/" + this.userId, {
-          displayDaysData: this.displayDaysData
+          console.log("error");
         })
-        .then(response => {
-          this.displayDayData = "";
-        })
-        .catch(err => {
-          this.message = err;
+        .finally(() => {
+          loader.hide();
         });
-    },
-    storeOrUpdate() {
-      let currentDate = dayjs().format("YYYY") + "-" + dayjs().format("MM");
-      let attendancesDbDate =
-        this.attendancesDbDates[0].date === undefined
-          ? null
-          : this.attendancesDbDates[0].date.slice(0, -3);
-
-      if (currentDate === attendancesDbDate) {
-        this.updateDaysData();
-      } else {
-        this.storeDaysData();
-        this.getAttendnaceData();
-      }
     }
   },
   computed: {
     currentDayjs() {
       return dayjs();
-    },
-    currentMonth() {
-      return dayjs().format("M");
     },
     currentDayOfWeek() {
       return dayjs().format("ddd");

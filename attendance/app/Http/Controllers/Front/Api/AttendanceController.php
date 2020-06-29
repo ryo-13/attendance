@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Front\Api;
 
 use Carbon\Carbon;
-use App\Models\User;
+use Carbon\CarbonPeriod;
 use App\Models\Attendance;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Front\API\AttendanceStoreRequest;
-use App\Http\Requests\Front\API\AttendanceUpdateRequest;
+use App\Http\Requests\Front\API\AttendanceLeaveUpdateRequest;
+use App\Http\Requests\Front\API\AttendanceArrivalUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -21,28 +21,30 @@ class AttendanceController extends Controller
     public function getAttendances()
     {
         $dt = new Carbon;
-        $days = [];
-        for ($i = 1; $i <= $dt->daysInMonth; $i++) {
-            $days[] = $i;
-        }
+        $startOfMonth = $dt->now()->startOfMonth();
+        $endOfMonth = $dt->now()->endOfMonth();
 
-        $attendances = User::find(Auth::id())->attendances()->get();
+        $currentMonthPeriod = CarbonPeriod::create($startOfMonth, $endOfMonth);
+
+        $attendances = Auth::user()->attendances()->get();
         if ($attendances->isEmpty()) {
             $attendances = [];
-            foreach ($days as $day) {
+
+            foreach ($currentMonthPeriod as $currentMonthDay) {
                 $attendances[] = [
                     'arrival' => null,
                     'leave' => null,
+                    'day_of_week' => $currentMonthDay->isoFormat('ddd'),
                 ];
             }
             return $attendances;
         }
 
         $attendances = [];
-        foreach ($days as $day) {
-            $date = "{$dt->year}-{$dt->month}-{$day}";
-            $attendances[] = User::find(Auth::id())->attendances()->where('date', $date)->first();
+        foreach ($currentMonthPeriod as $currentMonthDay) {
+            $attendances[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
         }
+
         return $attendances;
     }
 
@@ -54,33 +56,68 @@ class AttendanceController extends Controller
     public function storeAttendances(AttendanceStoreRequest $request)
     {
         $dt = new Carbon;
+        $attendances = [];
         foreach ($request->displayDaysData as $key => $value) {
             $day = $key + 1;
-            Attendance::create([
+            $attendances[] = Attendance::create([
                 'user_id' => Auth::id(),
                 'date' =>  "{$dt->year}-{$dt->month}-{$day}",
                 'arrival' => $value['arrival'],
-                'leave' => $value['leave']
+                'leave' => $value['leave'],
+                'day_of_week' => $value['day_of_week'],
             ]);
         }
+
+        return $attendances;
     }
 
     /**
-     * 出退勤情報を更新
+     * 出社時間を更新
      *
      * @param UpdateAttendanceRequest $request
      */
-    public function updateAttendances(AttendanceUpdateRequest $request)
+    public function updateArrival(AttendanceArrivalUpdateRequest $request, Attendance $attendance)
     {
-        $dt = new Carbon;
-        foreach ($request->displayDaysData as $key => $value) {
-            $day = $key + 1;
-            $dates = "{$dt->year}-{$dt->month}-{$day}";
-            Log::debug($dates);
-            Attendance::where('user_id', Auth::id())->where('date', $dates)->update([
-                'arrival' => $value['arrival'],
-                'leave' => $value['leave']
-            ]);
-        }
+        return  $attendance->update([
+            'arrival' => $request->attendanceTime['arrival']
+        ]);
+    }
+
+    /**
+     * 退社時間を更新
+     *
+     * @param UpdateAttendanceRequest $request
+     */
+    public function updateLeave(AttendanceLeaveUpdateRequest $request, Attendance $attendance)
+    {
+        return $attendance->update([
+            'leave' => $request->attendanceTime['leave']
+        ]);
+    }
+
+    /**
+     * 出社時間をリセット
+     *
+     * @param Attendance $attendance
+     * @return void
+     */
+    public function resetArrival(Attendance $attendance)
+    {
+        return $attendance->update([
+            'arrival' => null
+        ]);
+    }
+
+    /**
+     * 退社時間をリセット
+     *
+     * @param Attendance $attendance
+     * @return void
+     */
+    public function resetLeave(Attendance $attendance)
+    {
+        return $attendance->update([
+            'leave' => null
+        ]);
     }
 }

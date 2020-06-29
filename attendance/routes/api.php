@@ -15,10 +15,15 @@ Route::middleware('auth:api')->namespace('Front\API')->group(function () {
     Route::get('identity', 'IdentityController@show')->name('api.identity.show');
     Route::post('identity/confirm-password', 'IdentityController@confirmPassword')->name('api.identity.confirmPassword');
     Route::put('identity', 'IdentityController@update')->name('api.identity.update');
-
+    // 残業申請
+    Route::get('overtimes', 'OvertimeController@getOvertimes')->name('api.overtimes.getOvertimes');
+    Route::post('overtimes', 'OvertimeController@store')->name('api.overtimes.store');
+    Route::delete('overtimes/{overtime}', 'OvertimeController@destroy')->name('api.overtimes.destroy');
     // 出退勤
     Route::get('attendances', 'AttendanceController@getAttendances')->name('api.attendances.getAttendances');
     Route::post('attendances', 'AttendanceController@storeAttendances')->name('api.attendances.storeAttendances');
-    Route::put('attendances/{attendance}', 'AttendanceController@updateAttendances')->name('api.attendances.updateAttendances');
-    Route::delete('attendances/{attendance}', 'AttendanceController@delete')->name('api.attendances.delete');
+    Route::put('attendances/update_arrival/{attendance}', 'AttendanceController@updateArrival')->name('api.attendances.updateArrival');
+    Route::put('attendances/update_leave/{attendance}', 'AttendanceController@updateLeave')->name('api.attendances.updateLeave');
+    Route::put('attendances/reset_arrival/{attendance}', 'AttendanceController@resetArrival')->name('api.attendances.resetArrival');
+    Route::put('attendances/reset_leave/{attendance}', 'AttendanceController@resetLeave')->name('api.attendances.resetLeave');
 });
