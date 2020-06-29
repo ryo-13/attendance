@@ -45,8 +45,8 @@ export default {
       axios
         .get("/api/attendances")
         .then(response => {
-          this.displayDaysData = response.data;
-          this.attendancesDbDates = response.data;
+          this.displayDaysData = response.data.response;
+          this.attendancesDbDates = response.data.response;
         })
         .catch(err => {
           console.log("error");

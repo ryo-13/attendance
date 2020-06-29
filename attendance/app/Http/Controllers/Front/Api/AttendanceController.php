@@ -29,21 +29,18 @@ class AttendanceController extends Controller
         $attendances = Auth::user()->attendances()->get();
 
         $results = [];
-        if ($attendances->isEmpty()) {
-            foreach ($currentMonthPeriod as $currentMonthDay) {
+        foreach ($currentMonthPeriod as $currentMonthDay) {
+            if ($attendances->isEmpty()) {
                 $results[] = [
                     'arrival' => null,
                     'leave' => null,
                     'day_of_week' => $currentMonthDay->isoFormat('ddd'),
                 ];
+            } else {
+                $results[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
             }
-            return $results;
         }
-
-        foreach ($currentMonthPeriod as $currentMonthDay) {
-            $results[] = Auth::user()->attendances()->where('date', $currentMonthDay)->first();
-        }
-        return $results;
+        return response()->success($results);
     }
 
     /**
@@ -91,7 +88,7 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'leave' => $request->attendanceTime['leave']
         ]);
-        return response()->success($response);
+        return response()->json($response);
     }
 
     /**
@@ -105,7 +102,7 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'arrival' => null
         ]);
-        return response()->success($response);
+        return response()->json($response);
     }
 
     /**
@@ -119,6 +116,6 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'leave' => null
         ]);
-        return response()->success($response);
+        return response()->json($response);
     }
 }
