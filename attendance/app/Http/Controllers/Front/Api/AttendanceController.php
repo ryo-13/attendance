@@ -65,7 +65,7 @@ class AttendanceController extends Controller
                 'day_of_week' => $value['day_of_week'],
             ]);
         }
-        return response()->json($attendances);
+        return response()->success($attendances);
     }
 
     /**
@@ -91,7 +91,7 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'leave' => $request->attendanceTime['leave']
         ]);
-        return response()->json($response);
+        return response()->success($response);
     }
 
     /**
@@ -105,7 +105,7 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'arrival' => null
         ]);
-        return response()->json($response);
+        return response()->success($response);
     }
 
     /**
@@ -119,6 +119,6 @@ class AttendanceController extends Controller
         $response = $attendance->update([
             'leave' => null
         ]);
-        return response()->json($response);
+        return response()->success($response);
     }
 }
